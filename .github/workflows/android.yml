@@ -52,7 +52,7 @@ jobs:
       # Allow tests to continue on other devices if they fail on one device.
       fail-fast: false
       matrix:
-        os: [macos-latest]
+        os: [ macos-latest, ubuntu-latest ]
         arch: [ x86_64 ]
         target: [ google_apis ]
         channel: [ stable ]
@@ -63,7 +63,7 @@ jobs:
           - 30
           - 31
         include:
-          - os: macos-latest
+          - os: ubuntu-latest
             api-level: 27
             target: google_apis
             arch: x86_64
@@ -75,7 +75,7 @@ jobs:
             api-level: 29
             target: google_apis
             arch: x86_64
-          - os: macos-latest
+          - os: ubuntu-latest
             api-level: 30
             target: google_apis
             arch: x86_64
