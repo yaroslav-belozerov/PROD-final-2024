@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
 
-var openWeatherApiKey = ""
+var openWeatherApiKey = "000000000000000000000000000000000"
 try {
     val apikeyPropertiesFile = rootProject.file("secrets.properties")
     val apikeyProperties = Properties()
