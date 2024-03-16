@@ -54,10 +54,10 @@ jobs:
         target: [ google_apis ]
         channel: [ stable ]
         api-level:
-          - 28
+          - 29
         include:
           - os: ubuntu-latest
-            api-level: 28
+            api-level: 29
             target: google_apis
             arch: x86_64
     steps:
