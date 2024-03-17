@@ -57,6 +57,13 @@ jobs:
         target: [ google_apis ]
         channel: [ stable ]
         api-level: [ 27, 28, 29, 30, 31, 32 ]
+        exclude: # Exclude configurations that are not included in sdkmanager
+          - api-level: 27
+            arch: x86_64
+          - api-level: 31
+            arch: x86
+          - api-level: 32
+            arch: x86
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
