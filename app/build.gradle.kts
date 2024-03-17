@@ -7,12 +7,12 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
 
-var openWeatherApiKey = "000000000000000000000000000000000"
+var openWeatherApiKey = ""
 try {
-    val apikeyPropertiesFile = rootProject.file("seacrets.properties")
+    val apikeyPropertiesFile = rootProject.file("secrets.properties")
     val apikeyProperties = Properties()
     apikeyProperties.load(FileInputStream(apikeyPropertiesFile))
-    openWeatherApiKey = "\"" + apikeyProperties["OPEN_WEATHER_API_KEY"] + "\""
+    openWeatherApiKey = apikeyProperties["OPEN_WEATHER_API_KEY"].toString()
 } catch (e: FileNotFoundException) {
     logger.warn("No secrets.properties file found. Using default value: ${openWeatherApiKey}.")
 } catch (e: Exception) {
@@ -35,7 +35,7 @@ android {
             useSupportLibrary = true
         }
 
-        buildConfigField("String", "OPEN_WEATHER_API_KEY", "\"" + openWeatherApiKey + "\"")
+        buildConfigField("String", "OPEN_WEATHER_API_KEY", openWeatherApiKey)
     }
 
     buildTypes {
