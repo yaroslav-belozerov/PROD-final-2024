@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
 
-var openWeatherApiKey = ""
+var openWeatherApiKey = "00000000000000000000000000000000"
 try {
     val apikeyPropertiesFile = rootProject.file("secrets.properties")
     val apikeyProperties = Properties()
@@ -35,7 +35,7 @@ android {
             useSupportLibrary = true
         }
 
-        buildConfigField("String", "OPEN_WEATHER_API_KEY", openWeatherApiKey)
+        buildConfigField("String", "OPEN_WEATHER_API_KEY", "\"" + openWeatherApiKey + "\"")
     }
 
     buildTypes {
