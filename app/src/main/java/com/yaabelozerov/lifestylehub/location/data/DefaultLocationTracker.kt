@@ -46,7 +46,7 @@ class DefaultLocationTracker @Inject constructor(
             return null
         }
         locationManager.requestLocationUpdates(
-            LocationManager.NETWORK_PROVIDER, 10000L, 0F, locationListener
+            LocationManager.NETWORK_PROVIDER, 10000L, 10F, locationListener
         )
         return locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
     }

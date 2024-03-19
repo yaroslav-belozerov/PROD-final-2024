@@ -14,5 +14,6 @@ interface OwmWeatherService {
         @Query("lon") lontitude: Double,
         @Query("lang") lang: String? = "en",
         @Query("appid") apiKey: String? = BuildConfig.OPEN_WEATHER_API_KEY,
+        @Query("units") units: String? = "metric"
     ) : Call<OwmWeatherDTO>
 }

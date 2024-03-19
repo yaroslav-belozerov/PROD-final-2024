@@ -2,6 +2,7 @@ package com.yaabelozerov.lifestylehub.weather.presentation
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -59,7 +60,7 @@ fun LoadingWeatherCard() {
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background)
                         .padding(16.dp),
-                    model = placeholder(R.drawable.owm_icon_placeholder),
+                    model = R.drawable.owm_icon_placeholder,
                     contentDescription = "Weather icon"
                 )
             }
@@ -79,11 +80,15 @@ fun FilledWeatherCard(data: WeatherData) {
                 GlideImage(
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background)
-                        .padding(16.dp), model = data.iconUrl, contentDescription = "Weather icon"
+                        .padding(16.dp),
+                    model = data.iconUrl, contentDescription = "Weather icon",
                 )
             }
             Row {
-                Text(text = data.description, modifier= Modifier.weight(1f))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(text = data.place)
+                    Text(text = data.description)
+                }
                 Text(text = data.temperature.toString())
             }
         }

@@ -16,7 +16,7 @@ interface OnWeatherApiReceivedCallback {
 
 class OwmWeatherApi : OwmWeatherService {
     override fun weatherByCoordinates(
-        latitude: Double, lontitude: Double, lang: String?, apiKey: String?
+        latitude: Double, lontitude: Double, lang: String?, apiKey: String?, units: String?
     ): Call<OwmWeatherDTO> {
         val moshi = Moshi.Builder() // adapter
             .add(KotlinJsonAdapterFactory())
@@ -25,7 +25,7 @@ class OwmWeatherApi : OwmWeatherService {
         val retrofit = Retrofit.Builder().baseUrl("https://api.openweathermap.org/data/2.5/")
             .addConverterFactory(MoshiConverterFactory.create(moshi)).build()
         val call: Call<OwmWeatherDTO> = retrofit.create(OwmWeatherService::class.java)
-            .weatherByCoordinates(latitude, lontitude, lang, apiKey)
+            .weatherByCoordinates(latitude, lontitude, lang, apiKey, units)
 
         call.clone().enqueue(object : Callback<OwmWeatherDTO?> {
             override fun onResponse(

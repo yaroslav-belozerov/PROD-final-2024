@@ -23,13 +23,13 @@ class WeatherRepositoryImpl @Inject constructor(
         lat: Double, lon: Double, lang: String?
     ): Resource<WeatherData> {
         return try {
-            val cached = cacheRegistry.getEntry("${lat.toInt()}${lon.toInt()}$lang")
+            val cached = cacheRegistry.getEntry("${lat}_${lon}$lang")
             val cacheEntryMapper = WeatherDataCacheEntryMapper()
             if (cached == null) {
                 val mapper = OwmWeatherWeatherDomainMapper()
                 val dto = owmApi.weatherByCoordinates(lat, lon, lang).await()
                 cacheRegistry.putEntry(
-                    "${lat.toInt()}${lon.toInt()}$lang", cacheEntryMapper.mapToCacheEntry(
+                    "${lat}_${lon}$lang", cacheEntryMapper.mapToCacheEntry(
                         mapper.mapToDomainModel(
                             dto
                         )
