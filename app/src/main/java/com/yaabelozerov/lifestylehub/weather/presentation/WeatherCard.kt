@@ -51,19 +51,7 @@ fun WeatherCard(
 @Composable
 fun LoadingWeatherCard() {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-
-    }
-}
-
-@OptIn(ExperimentalGlideComposeApi::class)
-@Composable
-fun FilledWeatherCard(data: WeatherData) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Surface {
@@ -71,11 +59,33 @@ fun FilledWeatherCard(data: WeatherData) {
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background)
                         .padding(16.dp),
-                    model = data.iconUrl,
+                    model = placeholder(R.drawable.owm_icon_placeholder),
                     contentDescription = "Weather icon"
                 )
             }
-            Text(text = data.description)
+            Text(text = "Loading")
+        }
+    }
+}
+
+@OptIn(ExperimentalGlideComposeApi::class)
+@Composable
+fun FilledWeatherCard(data: WeatherData) {
+    Card(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Surface {
+                GlideImage(
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(16.dp), model = data.iconUrl, contentDescription = "Weather icon"
+                )
+            }
+            Row {
+                Text(text = data.description, modifier= Modifier.weight(1f))
+                Text(text = data.temperature.toString())
+            }
         }
     }
 }
@@ -83,8 +93,7 @@ fun FilledWeatherCard(data: WeatherData) {
 @Composable
 fun ErrorWeatherCard() {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
     ) {
         Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
             Surface(
