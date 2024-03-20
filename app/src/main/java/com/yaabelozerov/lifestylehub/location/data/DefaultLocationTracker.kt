@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.yaabelozerov.lifestylehub.location.domain.LocationTracker
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -21,8 +22,8 @@ import kotlin.coroutines.resume
 class DefaultLocationTracker @Inject constructor(
     private val locationClient: FusedLocationProviderClient, private val application: Application
 ) : LocationTracker {
-    var lastKnownLocation = mutableStateOf<Location?>(null)
-    fun updateLocation(): Location? {
+    private val _lastKnownLocation = MutableStateFlow<Location?>(null)
+    private fun updateLocation(): Location? {
         val hasAccessCoarsePermission = ContextCompat.checkSelfPermission(
             application, Manifest.permission.ACCESS_COARSE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
@@ -53,15 +54,15 @@ class DefaultLocationTracker @Inject constructor(
 
     override suspend fun getCurrentLocation(): Location? {
         return suspendCancellableCoroutine { continuation ->
-            lastKnownLocation.value = updateLocation()
-            continuation.resume(lastKnownLocation.value)
+            _lastKnownLocation.value = updateLocation()
+            continuation.resume(_lastKnownLocation.value)
         }
     }
 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            lastKnownLocation.value = location
-            Log.d("DefaultLocationTracker_lastKnown", lastKnownLocation.toString())
+            _lastKnownLocation.value = location
+            Log.d("DefaultLocationTracker_lastKnown", _lastKnownLocation.toString())
         }
 
 
