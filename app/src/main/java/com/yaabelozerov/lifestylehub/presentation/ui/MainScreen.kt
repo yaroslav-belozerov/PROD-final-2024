@@ -12,16 +12,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.yaabelozerov.lifestylehub.weather.presentation.WeatherCard
 import com.yaabelozerov.lifestylehub.weather.presentation.WeatherCardViewModel
 import com.yaabelozerov.lifestylehub.weather.presentation.WeatherState
 
 
 @Composable
-fun MainScreen(weatherCardViewModel: WeatherCardViewModel = viewModel()) {
+fun MainScreen() {
+    val weatherCardViewModel: WeatherCardViewModel = viewModel()
     val state = remember {
         weatherCardViewModel.weatherMutableStateFlow
     }
+
 
     weatherCardViewModel.loadWeatherInfo()
     val weatherState by state.collectAsState()

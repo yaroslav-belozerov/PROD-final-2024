@@ -1,10 +1,9 @@
 package com.yaabelozerov.lifestylehub.weather.data.remote.mapper
 
 import com.yaabelozerov.lifestylehub.weather.data.remote.OwmWeatherDTO
-import com.yaabelozerov.lifestylehub.weather.data.remote.model.Weather
 import com.yaabelozerov.lifestylehub.weather.domain.mapper.DomainMapper
 import com.yaabelozerov.lifestylehub.weather.domain.model.WeatherData
-import com.yaabelozerov.lifestylehub.weather.util.Constants
+import com.yaabelozerov.lifestylehub.weather.data.remote.util.Constants
 
 class OwmWeatherWeatherDomainMapper : DomainMapper<OwmWeatherDTO, WeatherData> {
     override fun mapToDomainModel(obj: OwmWeatherDTO): WeatherData {
