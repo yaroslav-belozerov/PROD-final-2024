@@ -3,8 +3,6 @@ package com.yaabelozerov.lifestylehub.weather.di
 import com.yaabelozerov.lifestylehub.weather.data.local.model.CacheRegistry
 import com.yaabelozerov.lifestylehub.weather.data.local.model.WeatherDataCacheEntry
 import com.yaabelozerov.lifestylehub.weather.data.local.source.WeatherCacheRegistryImpl
-import com.yaabelozerov.lifestylehub.weather.domain.model.WeatherData
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

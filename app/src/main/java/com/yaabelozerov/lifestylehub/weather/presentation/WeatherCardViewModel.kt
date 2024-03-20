@@ -1,19 +1,10 @@
 package com.yaabelozerov.lifestylehub.weather.presentation
 
-import android.app.Application
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.CreationExtras
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.yaabelozerov.lifestylehub.location.domain.LocationTracker
 import com.yaabelozerov.lifestylehub.weather.domain.repository.WeatherRepository
 import com.yaabelozerov.lifestylehub.weather.domain.util.Resource
-import dagger.Module
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

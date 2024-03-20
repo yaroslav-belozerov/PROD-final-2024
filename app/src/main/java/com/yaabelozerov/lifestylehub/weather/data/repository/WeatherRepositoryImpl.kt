@@ -4,15 +4,12 @@ import android.util.Log
 import com.yaabelozerov.lifestylehub.weather.data.local.mapper.WeatherDataCacheEntryMapper
 import com.yaabelozerov.lifestylehub.weather.data.local.model.CacheRegistry
 import com.yaabelozerov.lifestylehub.weather.data.local.model.WeatherDataCacheEntry
-import com.yaabelozerov.lifestylehub.weather.data.remote.OwmWeatherDTO
 import com.yaabelozerov.lifestylehub.weather.data.remote.source.OwmWeatherApi
 import com.yaabelozerov.lifestylehub.weather.data.remote.mapper.OwmWeatherWeatherDomainMapper
 import com.yaabelozerov.lifestylehub.weather.domain.model.WeatherData
 import com.yaabelozerov.lifestylehub.weather.domain.repository.WeatherRepository
 import com.yaabelozerov.lifestylehub.weather.domain.util.Resource
-import retrofit2.Callback
 import retrofit2.await
-import retrofit2.awaitResponse
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(

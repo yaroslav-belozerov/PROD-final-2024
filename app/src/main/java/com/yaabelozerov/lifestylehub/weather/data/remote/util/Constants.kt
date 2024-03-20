@@ -1,7 +1,5 @@
 package com.yaabelozerov.lifestylehub.weather.data.remote.util
 
-import kotlin.math.sign
-
 sealed class Constants {
     companion object {
         const val OWM_ICON_URL = "https://openweathermap.org/img/wn/"

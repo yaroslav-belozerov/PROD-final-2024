@@ -3,7 +3,6 @@ package com.yaabelozerov.lifestylehub.weather.data.remote.source
 import com.yaabelozerov.lifestylehub.BuildConfig
 import com.yaabelozerov.lifestylehub.weather.data.remote.OwmWeatherDTO
 import retrofit2.Call
-import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Query
 

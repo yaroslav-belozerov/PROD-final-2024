@@ -1,6 +1,5 @@
 package com.yaabelozerov.lifestylehub.weather.data.local.source
 
-import android.util.Log
 import com.yaabelozerov.lifestylehub.weather.data.local.model.WeatherDataCacheEntry
 import com.yaabelozerov.lifestylehub.weather.data.local.model.CacheRegistry
 
