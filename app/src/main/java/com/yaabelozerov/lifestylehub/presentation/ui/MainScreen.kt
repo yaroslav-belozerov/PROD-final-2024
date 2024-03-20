@@ -7,8 +7,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.yaabelozerov.lifestylehub.weather.presentation.WeatherCard
-import com.yaabelozerov.lifestylehub.weather.presentation.WeatherCardViewModel
+import com.yaabelozerov.weather.presentation.WeatherCard
+import com.yaabelozerov.weather.presentation.WeatherCardViewModel
 
 
 @Composable

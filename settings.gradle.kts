@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "LifestyleHUB"
 include(":app")
+include(":app:weather")
+include(":app:location")
