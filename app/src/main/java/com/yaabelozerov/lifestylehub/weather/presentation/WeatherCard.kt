@@ -18,9 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,12 +35,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.bumptech.glide.integration.compose.placeholder
-import com.yaabelozerov.lifestylehub.R
 import com.yaabelozerov.lifestylehub.weather.domain.model.WeatherData
+import com.yaabelozerov.lifestylehub.weather.presentation.util.Constants
 
 @Composable
 fun WeatherCard(
@@ -75,10 +71,10 @@ fun FilledWeatherCard(data: WeatherData) {
         )
     }, data = {
         Column {
-            Text(text = data.temperature, fontSize = 20.sp)
+            Text(text = data.temperature, fontSize = Constants.Fonts.medium)
             Column {
-                Text(text = "Feels like ${data.feelsLike}", fontSize = 12.sp)
-                Text(text = data.description, fontSize = 12.sp)
+                Text(text = "Feels like ${data.feelsLike}", fontSize = Constants.Fonts.small)
+                Text(text = data.description, fontSize = Constants.Fonts.small)
             }
         }
     })
@@ -88,7 +84,7 @@ fun FilledWeatherCard(data: WeatherData) {
 fun LoadingWeatherCard() {
     CardSkeleton(place = {
         Column {
-            ShimmerSpacer(width = 80f, height = 24f)
+            ShimmerSpacer(width = 128f, height = 32f)
             Spacer(modifier = Modifier.height(8.dp))
         }
     }, image = {
@@ -125,7 +121,7 @@ fun Modifier.shimmer(colors: List<Color>): Modifier = composed {
         initialValue = -2 * size.width.toFloat(),
         targetValue = 2 * size.width.toFloat(),
         animationSpec = infiniteRepeatable(
-            animation = tween(2000)
+            animation = tween(Constants.Shimmer.duration),
         ),
         label = "startOffsetX"
     )
@@ -173,14 +169,9 @@ fun ShimmerSpacer(width: Float, height: Float) {
         modifier = Modifier
             .width(width.dp)
             .height(height.dp)
-            .clip(shape = RoundedCornerShape(8.dp))
+            .clip(shape = Constants.Shimmer.shape)
             .shimmer(
-                colors = listOf(
-                    Color.LightGray.copy(alpha = 0.9f),
-                    Color.LightGray.copy(alpha = 0.3f),
-                    Color.LightGray.copy(alpha = 0.3f),
-                    Color.LightGray.copy(alpha = 0.9f)
-                )
+                Constants.Shimmer.colors
             )
     )
 }
