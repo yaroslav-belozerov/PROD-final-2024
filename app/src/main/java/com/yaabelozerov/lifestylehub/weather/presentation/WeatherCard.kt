@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalGlideComposeApi::class)
+
 package com.yaabelozerov.lifestylehub.weather.presentation
 
 import androidx.compose.animation.Crossfade
@@ -38,15 +40,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
+import com.yaabelozerov.lifestylehub.R
 import com.yaabelozerov.lifestylehub.weather.domain.model.WeatherData
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun WeatherCard(
     state: WeatherState = WeatherState()
 ) {
 
-    Crossfade(targetState = state) {
+    Crossfade(targetState = state, label = "card crossfade") {
         if (it.error == null) {
             if (it.isLoading) {
                 LoadingWeatherCard()
@@ -63,7 +66,7 @@ fun WeatherCard(
     }
 }
 
-@OptIn(ExperimentalGlideComposeApi::class)
+
 @Composable
 fun FilledWeatherCard(data: WeatherData) {
     CardSkeleton(place = { Text(text = data.place) }, image = {
@@ -81,7 +84,6 @@ fun FilledWeatherCard(data: WeatherData) {
     })
 }
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun LoadingWeatherCard() {
     CardSkeleton(place = {
@@ -107,42 +109,9 @@ fun LoadingWeatherCard() {
 
 @Composable
 fun ErrorWeatherCard(error: String) {
-    EmptyWeatherCard(image = null, data = @Composable {
-        Row {
-            Text(text = error)
-        }
+    CardSkeleton(place = null, image = null, data = {
+        Text(text = error)
     })
-}
-
-@Composable
-fun EmptyWeatherCard(
-    modifier: Modifier = Modifier,
-    place: String? = null,
-    image: @Composable (() -> Unit)?,
-    data: @Composable () -> Unit,
-) {
-
-    ElevatedCard(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-            .height(128.dp),
-        elevation = CardDefaults.cardElevation(8.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxHeight(),
-            verticalArrangement = Arrangement.Center
-        ) {
-            if (place != null) Text(text = place)
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                if (image != null) image()
-                data()
-            }
-        }
-    }
-
 }
 
 fun Modifier.shimmer(colors: List<Color>): Modifier = composed {
@@ -172,7 +141,9 @@ fun Modifier.shimmer(colors: List<Color>): Modifier = composed {
 
 @Composable
 fun CardSkeleton(
-    place: @Composable () -> Unit, image: @Composable () -> Unit, data: @Composable () -> Unit
+    place: @Composable (() -> Unit)?,
+    image: @Composable (() -> Unit)?,
+    data: @Composable (() -> Unit)?
 ) {
     ElevatedCard(
         modifier = Modifier
@@ -187,10 +158,10 @@ fun CardSkeleton(
                 .fillMaxHeight(),
             verticalArrangement = Arrangement.Center
         ) {
-            place()
+            place?.invoke()
             Row(verticalAlignment = Alignment.CenterVertically) {
-                image()
-                data()
+                image?.invoke()
+                data?.invoke()
             }
         }
     }
@@ -205,7 +176,10 @@ fun ShimmerSpacer(width: Float, height: Float) {
             .clip(shape = RoundedCornerShape(8.dp))
             .shimmer(
                 colors = listOf(
-                    Color.LightGray.copy(alpha = 0.9f), Color.LightGray.copy(alpha = 0.3f), Color.LightGray.copy(alpha = 0.3f), Color.LightGray.copy(alpha = 0.9f)
+                    Color.LightGray.copy(alpha = 0.9f),
+                    Color.LightGray.copy(alpha = 0.3f),
+                    Color.LightGray.copy(alpha = 0.3f),
+                    Color.LightGray.copy(alpha = 0.9f)
                 )
             )
     )
