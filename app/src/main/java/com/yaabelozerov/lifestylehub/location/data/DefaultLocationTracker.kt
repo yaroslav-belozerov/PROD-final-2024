@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.yaabelozerov.lifestylehub.location.domain.LocationTracker
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
@@ -53,6 +54,7 @@ class DefaultLocationTracker @Inject constructor(
     }
 
     override suspend fun getCurrentLocation(): Location? {
+        delay(3000)
         return suspendCancellableCoroutine { continuation ->
             _lastKnownLocation.value = updateLocation()
             continuation.resume(_lastKnownLocation.value)
