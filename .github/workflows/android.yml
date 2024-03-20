@@ -96,13 +96,13 @@ jobs:
           api-level: ${{ matrix.api-level }}
           target: ${{ matrix.target }}
           arch: ${{ matrix.arch }}
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot-save
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot-save -wipe-data
           disable-animations: true
           script: |
             touch emulator.log                    # create log file
             chmod 777 emulator.log                # allow writing to log file
             adb logcat >> emulator.log &          # pipe all logcat messages into log file as a background process
-            ./gradlew connectedDebugAndroidTest
+            ./gradlew connectedDebugAndroidTest --stacktrace
       - name: Upload results
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
