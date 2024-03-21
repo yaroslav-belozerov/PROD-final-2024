@@ -24,12 +24,12 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun ShimmerSpacer(width: Float, height: Float) {
+fun ShimmerSpacer(width: Float, height: Float, modifier: Modifier = Modifier) {
     Spacer(
         modifier = Modifier.width(width.dp).height(height.dp).clip(shape = Constants.Shimmer.shape)
             .shimmer(
                 Constants.Shimmer.colors
-            )
+            ).then(modifier)
     )
 }
 

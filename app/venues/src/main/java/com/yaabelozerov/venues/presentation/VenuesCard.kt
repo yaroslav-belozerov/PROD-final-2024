@@ -1,6 +1,7 @@
 package com.yaabelozerov.venues.presentation
 
 import android.util.Log
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
@@ -26,25 +27,57 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.Glide
+import com.yaabelozerov.common.presentation.ShimmerSpacer
 import com.yaabelozerov.venues.R
 import com.yaabelozerov.venues.domain.model.VenueData
 
 @Composable
 fun VenuesCard(state: VenuesState = VenuesState()) {
 
-    if (!state.isLoading && state.error == null) {
-        LazyColumn {
-            items(state.venues.size) { index ->
-                VenueCardSkeleton(
-                    title = { Text(text = state.venues[index].name, fontSize = 24.sp) }, image = null, details = {
-                        VenueCardDetails(
-                            address = state.venues[index].address,
-                            isClosed = state.venues[index].isClosed,
-                            proximity = state.venues[index].distance,
+    Crossfade(targetState = state, label = "card crossfade") {
+        if (it.error == null) {
+            if (!it.isLoading) {
+                LazyColumn {
+                    items(it.venues.size) { index ->
+                        VenueCardSkeleton(
+                            title = { Text(text = it.venues[index].name, fontSize = 24.sp) },
+                            image = null,
+                            details = {
+                                VenueCardDetails(
+                                    address = it.venues[index].address,
+                                    isClosed = it.venues[index].isClosed,
+                                    proximity = it.venues[index].distance,
+                                )
+                            }
                         )
                     }
-                )
+                }
+            } else {
+                LazyColumn {
+                    items(5) {
+                        VenueCardSkeleton(
+                            title = { ShimmerSpacer(width = 384f, height = 32f) },
+                            image = null,
+                            details = {
+                                Spacer(modifier = Modifier.height(4.dp))
+                                ShimmerSpacer(width = 96f, height = 16f)
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Row {
+                                    ShimmerSpacer(width = 64f, height = 16f)
+                                    Spacer(modifier = Modifier.weight(1f))
+                                    ShimmerSpacer(width = 64f, height = 16f)
+                                }
+                            }
+                        )
+                    }
+                }
             }
+        } else {
+            VenueCardSkeleton(
+                title = { Text(text = "Unexpected error: ${it.error}") },
+                image = null,
+                details = null
+            )
         }
     }
 
