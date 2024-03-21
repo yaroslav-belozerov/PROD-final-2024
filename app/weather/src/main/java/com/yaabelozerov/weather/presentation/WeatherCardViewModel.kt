@@ -3,7 +3,7 @@ package com.yaabelozerov.weather.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaabelozerov.weather.domain.repository.WeatherRepository
-import com.yaabelozerov.weather.domain.util.Resource
+import com.yaabelozerov.common.domain.Resource
 import com.yaabelozerov.location.domain.LocationTracker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
