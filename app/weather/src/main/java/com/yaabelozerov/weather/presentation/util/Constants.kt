@@ -1,4 +1,4 @@
-package com.yaabelozerov.common.presentation
+package com.yaabelozerov.weather.presentation.util
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Color

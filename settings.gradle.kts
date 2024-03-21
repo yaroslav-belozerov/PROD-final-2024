@@ -23,4 +23,3 @@ rootProject.name = "LifestyleHUB"
 include(":app")
 include(":app:weather")
 include(":app:location")
-include(":app:common")

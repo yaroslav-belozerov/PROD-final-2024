@@ -1,12 +1,11 @@
 package com.yaabelozerov.weather.data.remote.mapper
 
-import com.yaabelozerov.common.domain.DomainMapper
 import com.yaabelozerov.weather.data.remote.OwmWeatherDTO
+import com.yaabelozerov.weather.domain.mapper.DomainMapper
 import com.yaabelozerov.weather.domain.model.WeatherData
 import com.yaabelozerov.weather.data.remote.util.Constants
 
-class OwmWeatherToDomainMapper :
-    DomainMapper<OwmWeatherDTO, WeatherData> {
+class OwmWeatherWeatherDomainMapper : DomainMapper<OwmWeatherDTO, WeatherData> {
     override fun mapToDomainModel(obj: OwmWeatherDTO): WeatherData {
         return WeatherData(
             place = obj.name ?: "Failed to get name",
