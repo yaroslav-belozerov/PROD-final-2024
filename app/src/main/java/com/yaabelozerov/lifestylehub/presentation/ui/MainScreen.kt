@@ -1,6 +1,7 @@
 package com.yaabelozerov.lifestylehub.presentation.ui
 
 import android.util.Log
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -31,11 +32,13 @@ fun MainScreen() {
     val venuesState by vState.collectAsState()
 
     MaterialTheme {
-        WeatherCard(
-            state = weatherState,
-        )
-        VenuesCard(state = venuesState)
+        Column {
+            WeatherCard(
+                state = weatherState,
+            )
+            VenuesCard(state = venuesState)
+        }
 
-        Log.i("MaterialTheme", "Recomposed with state: $weatherState")
+        Log.i("MaterialTheme", "Recomposed with state: $weatherState, $venuesState")
     }
 }
