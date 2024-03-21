@@ -1,6 +1,6 @@
 package com.yaabelozerov.weather.di
 
-import com.yaabelozerov.weather.data.remote.mapper.OwmWeatherWeatherDomainMapper
+import com.yaabelozerov.weather.data.remote.mapper.OwmWeatherToDomainMapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,5 +12,5 @@ import javax.inject.Singleton
 abstract class WeatherMapperModule {
     @Binds
     @Singleton
-    abstract fun bindWeatherMapper(weatherMapperImpl: OwmWeatherWeatherDomainMapper): OwmWeatherWeatherDomainMapper
+    abstract fun bindWeatherMapper(weatherMapperImpl: OwmWeatherToDomainMapper): OwmWeatherToDomainMapper
 }
