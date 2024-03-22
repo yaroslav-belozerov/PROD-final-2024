@@ -3,30 +3,37 @@ import java.io.FileNotFoundException
 import java.util.Properties
 
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 
-    id("kotlin-parcelize")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0-Beta4"
 }
 
+var fsqPlacesApiKey = "00000000000000000000000000000000"
+try {
+    val apikeyPropertiesFile = rootProject.file("secrets.properties")
+    val apikeyProperties = Properties()
+    apikeyProperties.load(FileInputStream(apikeyPropertiesFile))
+    fsqPlacesApiKey = apikeyProperties["FSQ_PLACES_API_KEY"].toString()
+} catch (e: FileNotFoundException) {
+    logger.warn("No secrets.properties file found. Using default value: ${fsqPlacesApiKey}.")
+} catch (e: Exception) {
+    throw e
+}
+
 android {
-    namespace = "com.yaabelozerov.lifestylehub"
+    namespace = "com.yaabelozerov.venues"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.yaabelozerov.lifestylehub"
         minSdk = 27
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("String", "FSQ_PLACES_API_KEY", "\"" + fsqPlacesApiKey + "\"")
     }
 
     buildTypes {
@@ -38,23 +45,19 @@ android {
             )
         }
     }
+    buildFeatures {
+        compose = true
+        buildConfig = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.2"
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
     }
 }
 
@@ -72,8 +75,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
-    implementation(project(":app:weather"))
-    implementation(project(":app:venues"))
+    implementation(project(":app:common"))
+    implementation(project(":app:location"))
     testImplementation(libs.junit)
     testImplementation(libs.junit.jupiter)
     androidTestImplementation(libs.androidx.junit)

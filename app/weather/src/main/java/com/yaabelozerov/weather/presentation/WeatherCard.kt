@@ -27,19 +27,18 @@ import com.yaabelozerov.common.presentation.ShimmerSpacer
 import com.yaabelozerov.weather.domain.model.WeatherData
 
 @Composable
-fun WeatherCard(
+fun WeatherCardSingle(
     state: WeatherState = WeatherState()
 ) {
-
     Crossfade(targetState = state, label = "card crossfade") {
         if (it.error == null) {
             if (it.isLoading) {
                 LoadingWeatherCard()
             } else {
-                if (it.weatherData != null) {
-                    FilledWeatherCard(data = it.weatherData)
+                if (state.weatherData != null) {
+                    WeatherCard(data = state.weatherData)
                 } else {
-                    ErrorWeatherCard(error = "No data")
+                    LoadingWeatherCard()
                 }
             }
         } else {
@@ -50,8 +49,8 @@ fun WeatherCard(
 
 
 @Composable
-fun FilledWeatherCard(data: WeatherData) {
-    CardSkeleton(place = { Text(text = data.place) }, image = {
+fun WeatherCard(data: WeatherData) {
+    WeatherCardSkeleton(place = { Text(text = data.place) }, image = {
         GlideImage(
             model = data.iconUrl, contentDescription = "None", modifier = Modifier.size(64.dp)
         )
@@ -68,7 +67,7 @@ fun FilledWeatherCard(data: WeatherData) {
 
 @Composable
 fun LoadingWeatherCard() {
-    CardSkeleton(place = {
+    WeatherCardSkeleton(place = {
         Column {
             ShimmerSpacer(width = 128f, height = 32f)
             Spacer(modifier = Modifier.height(8.dp))
@@ -91,13 +90,13 @@ fun LoadingWeatherCard() {
 
 @Composable
 fun ErrorWeatherCard(error: String) {
-    CardSkeleton(place = null, image = null, data = {
+    WeatherCardSkeleton(place = null, image = null, data = {
         Text(text = error)
     })
 }
 
 @Composable
-fun CardSkeleton(
+fun WeatherCardSkeleton(
     place: @Composable (() -> Unit)?,
     image: @Composable (() -> Unit)?,
     data: @Composable (() -> Unit)?
