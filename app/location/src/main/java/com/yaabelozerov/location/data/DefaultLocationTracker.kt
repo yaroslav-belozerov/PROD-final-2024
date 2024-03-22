@@ -54,6 +54,7 @@ class DefaultLocationTracker @Inject constructor(
     }
 
     override suspend fun getCurrentLocation(): Location? {
+        delay(3000)
         return suspendCancellableCoroutine { continuation ->
             _lastKnownLocation.value = updateLocation()
             continuation.resume(_lastKnownLocation.value)

@@ -2,24 +2,19 @@
 
 package com.yaabelozerov.venues.presentation
 
-import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,69 +22,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.yaabelozerov.common.presentation.ShimmerSpacer
 import com.yaabelozerov.venues.R
-import com.yaabelozerov.venues.domain.model.VenueData
+import com.yaabelozerov.venues.domain.model.BundledVenueData
 
 @Composable
 fun VenuesCard(state: VenuesState = VenuesState()) {
 
     Crossfade(targetState = state, label = "card crossfade") {
         if (it.error == null) {
-            if (!it.isLoading) {
-                LazyColumn {
-                    items(it.venues.size) { index ->
-                        VenueCardSkeleton(
-                            title = {
-                                Text(
-                                    text = it.venues[index].venueData.name,
-                                    fontSize = 24.sp
-                                )
-                            },
-                            image = {
-                                GlideImage(
-                                    model = it.venues[index].photos.first(),
-                                    contentDescription = "venue image",
-                                    modifier = Modifier.fillMaxWidth().height(128.dp).clip(shape = CardDefaults.shape),
-                                    loading = placeholder(R.drawable.landscape_placeholder), contentScale = ContentScale.Crop
-                                )
-                            },
-                            details = {
-                                VenueCardDetails(
-                                    address = it.venues[index].venueData.address,
-                                    isClosed = it.venues[index].venueData.isClosed,
-                                    proximity = it.venues[index].venueData.distance,
-                                )
-                            }
-                        )
-                    }
-                }
+            if (!it.isLoading && it.venues.isNotEmpty()) {
+                FilledVenueCard(venues = state.venues)
             } else {
-                LazyColumn {
-                    items(5) {
-                        VenueCardSkeleton(
-                            title = { ShimmerSpacer(width = 384f, height = 32f) },
-                            image = null,
-                            details = {
-                                Spacer(modifier = Modifier.height(4.dp))
-                                ShimmerSpacer(width = 96f, height = 16f)
-                                Spacer(modifier = Modifier.height(4.dp))
-                                Row {
-                                    ShimmerSpacer(width = 64f, height = 16f)
-                                    Spacer(modifier = Modifier.weight(1f))
-                                    ShimmerSpacer(width = 64f, height = 16f)
-                                }
-                            }
-                        )
-                    }
-                }
+                LoadingVenueCard()
             }
         } else {
             VenueCardSkeleton(
@@ -100,6 +50,26 @@ fun VenuesCard(state: VenuesState = VenuesState()) {
         }
     }
 
+}
+
+@Composable
+fun LoadingVenueCard() {
+    LazyColumn {
+        items(5) {
+            VenueCardSkeleton(title = { ShimmerSpacer(width = 384f, height = 32f) },
+                image = null,
+                details = {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    ShimmerSpacer(width = 96f, height = 16f)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Row {
+                        ShimmerSpacer(width = 64f, height = 16f)
+                        Spacer(modifier = Modifier.weight(1f))
+                        ShimmerSpacer(width = 64f, height = 16f)
+                    }
+                })
+        }
+    }
 }
 
 @Composable
@@ -143,4 +113,92 @@ fun VenueCardDetails(address: String, isClosed: Boolean, proximity: String) {
         Spacer(modifier = Modifier.weight(1f))
         Text(text = if (!isClosed) "Открыто" else "Закрыто")
     }
+}
+
+@Composable
+fun FilledVenueCard(venues: List<BundledVenueData>) {
+    LazyColumn {
+        items(venues.size) { index ->
+            VenueCardSkeleton(title = {
+                Text(
+                    text = venues[index].venueData.name, fontSize = 24.sp
+                )
+            }, image = {
+                if (venues[index].photos.isNotEmpty()) GlideImage(
+                    model = venues[index].photos.first(),
+                    contentDescription = "venue image",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(128.dp)
+                        .clip(shape = CardDefaults.shape),
+                    loading = placeholder(R.drawable.landscape_placeholder),
+                    contentScale = ContentScale.Crop
+                )
+            }, details = {
+                VenueCardDetails(
+                    address = venues[index].venueData.address,
+                    isClosed = venues[index].venueData.isClosed,
+                    proximity = venues[index].venueData.distance,
+                )
+            })
+
+        }
+    }
+}
+
+@Composable
+fun VenueCardSingle(state: VenuesState, index: Int) {
+    Crossfade(targetState = state) {targetState ->
+        if (targetState.error == null) {
+            if (!targetState.isLoading && targetState.venues.isNotEmpty()) {
+                val venue = targetState.venues[index]
+                VenueCardSkeleton(title = {
+                    Text(
+                        text = venue.venueData.name, fontSize = 24.sp
+                    )
+                }, image = {
+                    if (venue.photos.isNotEmpty()) GlideImage(
+                        model = venue.photos.first(),
+                        contentDescription = "venue image",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(128.dp)
+                            .clip(shape = CardDefaults.shape),
+                        loading = placeholder(R.drawable.landscape_placeholder),
+                        contentScale = ContentScale.Crop
+                    )
+                }, details = {
+                    VenueCardDetails(
+                        address = venue.venueData.address,
+                        isClosed = venue.venueData.isClosed,
+                        proximity = venue.venueData.distance,
+                    )
+                })
+            } else {
+                LoadingCardSingle()
+            }
+        } else {
+            VenueCardSkeleton(
+                title = { Text(text = "Unexpected error: ${targetState.error}") },
+                image = null,
+                details = null
+            )
+        }
+    }
+}
+
+@Composable
+fun LoadingCardSingle() {
+    VenueCardSkeleton(title = { ShimmerSpacer(width = 384f, height = 32f) },
+        image = null,
+        details = {
+            Spacer(modifier = Modifier.height(4.dp))
+            ShimmerSpacer(width = 96f, height = 16f)
+            Spacer(modifier = Modifier.height(4.dp))
+            Row {
+                ShimmerSpacer(width = 64f, height = 16f)
+                Spacer(modifier = Modifier.weight(1f))
+                ShimmerSpacer(width = 64f, height = 16f)
+            }
+        })
 }

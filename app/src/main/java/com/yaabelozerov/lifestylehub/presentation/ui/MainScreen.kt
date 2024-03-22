@@ -1,44 +1,35 @@
 package com.yaabelozerov.lifestylehub.presentation.ui
 
-import android.util.Log
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.yaabelozerov.venues.presentation.VenuesCard
+import com.yaabelozerov.venues.presentation.VenueCardSingle
 import com.yaabelozerov.venues.presentation.VenuesCardViewModel
 import com.yaabelozerov.weather.presentation.WeatherCard
+import com.yaabelozerov.weather.presentation.WeatherCardSingle
 import com.yaabelozerov.weather.presentation.WeatherCardViewModel
 
 @Composable
 fun MainScreen() {
     val weatherCardViewModel: WeatherCardViewModel = viewModel()
     val venuesCardViewModel: VenuesCardViewModel = viewModel()
-    val wState = remember {
-        weatherCardViewModel.weatherMutableStateFlow
-    }
-    val vState = remember {
-        venuesCardViewModel.venuesMutableStateFlow
-    }
 
-    weatherCardViewModel.loadWeatherInfo()
-    val weatherState by wState.collectAsState()
-
+    val weather = weatherCardViewModel.weather
+    val venues = venuesCardViewModel.venues
     venuesCardViewModel.loadVenues()
-    val venuesState by vState.collectAsState()
+    weatherCardViewModel.loadWeatherInfo()
 
     MaterialTheme {
-        Column {
-            WeatherCard(
-                state = weatherState,
-            )
-            VenuesCard(state = venuesState)
+        LazyColumn(Modifier.wrapContentHeight()) {
+            item {
+                WeatherCardSingle(state = weather.value)
+            }
+            items(maxOf(venues.value.venues.size, 5)) { index ->
+                VenueCardSingle(state = venues.value, index = index)
+            }
         }
-
-        Log.i("MaterialTheme", "Recomposed with state: $weatherState, $venuesState")
     }
 }

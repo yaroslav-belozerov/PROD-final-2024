@@ -10,8 +10,6 @@ interface FsqPlacesApiService {
     @GET("search")
     fun placesByCoordinates(
         @Header("Authorization") apiKey: String,
-//        @Header("accept") accept: String,
-//        @Header("Authorization: Bearer sq3Ijg8yX3C8tIQKZCzt2HLW6VJxlno5Pn3CvMFcSBgLSo=")
         @Query("ll") coordinates: String,
         @Query("radius") radius: Int,
     ): Call<FsqPlacesDTO>
