@@ -1,9 +1,9 @@
-package com.yaabelozerov.venues.data.remote.model
+package com.yaabelozerov.venues.data.remote.foursquare.model
 
 import com.squareup.moshi.Json
 
 
-class Roof {
+class Main {
     @Json(name = "latitude")
     var latitude: Double? = null
 

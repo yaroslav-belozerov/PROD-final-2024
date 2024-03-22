@@ -1,4 +1,4 @@
-package com.yaabelozerov.venues.data.remote.model
+package com.yaabelozerov.venues.data.remote.foursquare.model
 
 import android.graphics.drawable.Icon
 import com.squareup.moshi.Json

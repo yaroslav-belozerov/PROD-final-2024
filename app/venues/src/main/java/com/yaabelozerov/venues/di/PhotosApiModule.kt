@@ -1,6 +1,6 @@
 package com.yaabelozerov.venues.di
 
-import com.yaabelozerov.venues.data.remote.foursquare.source.FsqPlacesApi
+import com.yaabelozerov.venues.data.remote.foursquare.source.FsqPhotosApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -9,10 +9,10 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object VenuesApiModule {
+object PhotosApiModule {
     @Provides
     @Singleton
-    fun provideFsqPlacesApi(): FsqPlacesApi {
-        return FsqPlacesApi()
+    fun provideFsqImagesApi(): FsqPhotosApi {
+        return FsqPhotosApi()
     }
 }

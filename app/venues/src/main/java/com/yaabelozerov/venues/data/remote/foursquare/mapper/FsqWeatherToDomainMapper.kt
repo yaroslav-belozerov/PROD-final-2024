@@ -1,7 +1,7 @@
-package com.yaabelozerov.venues.data.remote.mapper
+package com.yaabelozerov.venues.data.remote.foursquare.mapper
 
 import com.yaabelozerov.common.domain.DomainMapper
-import com.yaabelozerov.venues.data.remote.model.Result
+import com.yaabelozerov.venues.data.remote.foursquare.model.Result
 import com.yaabelozerov.venues.domain.model.VenueData
 
 class FsqWeatherToDomainMapper : DomainMapper<Result, VenueData> {

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalGlideComposeApi::class)
+
 package com.yaabelozerov.venues.presentation
 
 import android.util.Log
@@ -22,11 +24,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.Glide
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
 import com.yaabelozerov.common.presentation.ShimmerSpacer
 import com.yaabelozerov.venues.R
 import com.yaabelozerov.venues.domain.model.VenueData
@@ -40,13 +47,25 @@ fun VenuesCard(state: VenuesState = VenuesState()) {
                 LazyColumn {
                     items(it.venues.size) { index ->
                         VenueCardSkeleton(
-                            title = { Text(text = it.venues[index].name, fontSize = 24.sp) },
-                            image = null,
+                            title = {
+                                Text(
+                                    text = it.venues[index].venueData.name,
+                                    fontSize = 24.sp
+                                )
+                            },
+                            image = {
+                                GlideImage(
+                                    model = it.venues[index].photos.first(),
+                                    contentDescription = "venue image",
+                                    modifier = Modifier.fillMaxWidth().height(128.dp).clip(shape = CardDefaults.shape),
+                                    loading = placeholder(R.drawable.landscape_placeholder), contentScale = ContentScale.Crop
+                                )
+                            },
                             details = {
                                 VenueCardDetails(
-                                    address = it.venues[index].address,
-                                    isClosed = it.venues[index].isClosed,
-                                    proximity = it.venues[index].distance,
+                                    address = it.venues[index].venueData.address,
+                                    isClosed = it.venues[index].venueData.isClosed,
+                                    proximity = it.venues[index].venueData.distance,
                                 )
                             }
                         )
