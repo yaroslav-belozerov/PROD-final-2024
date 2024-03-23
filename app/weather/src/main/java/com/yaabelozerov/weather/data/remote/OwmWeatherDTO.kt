@@ -9,10 +9,7 @@ import com.yaabelozerov.weather.data.remote.model.Weather
 @JsonClass(generateAdapter = true)
 data class OwmWeatherDTO(
     @Json(name = "coord") var coord: Coord? = null,
-
     @Json(name = "weather") var weather: List<Weather>? = null,
-
     @Json(name = "main") var main: Main? = null,
-
     @Json(name = "name") var name: String? = null,
 )

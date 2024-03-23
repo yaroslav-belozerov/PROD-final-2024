@@ -2,7 +2,6 @@ package com.yaabelozerov.venues.data.remote.foursquare.model
 
 import com.squareup.moshi.Json
 
-
 class Location {
     @Json(name = "address")
     var address: String? = null

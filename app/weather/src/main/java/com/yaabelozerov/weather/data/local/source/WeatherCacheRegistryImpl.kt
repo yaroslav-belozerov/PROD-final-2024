@@ -1,7 +1,7 @@
 package com.yaabelozerov.weather.data.local.source
 
-import com.yaabelozerov.weather.data.local.model.WeatherDataCacheEntry
 import com.yaabelozerov.weather.data.local.model.CacheRegistry
+import com.yaabelozerov.weather.data.local.model.WeatherDataCacheEntry
 
 class WeatherCacheRegistryImpl : CacheRegistry<WeatherDataCacheEntry> {
     private val cache = mutableMapOf<String, WeatherDataCacheEntry>()
@@ -11,7 +11,10 @@ class WeatherCacheRegistryImpl : CacheRegistry<WeatherDataCacheEntry> {
         return cache[id]
     }
 
-    override fun putEntry(id: String, entry: WeatherDataCacheEntry) {
+    override fun putEntry(
+        id: String,
+        entry: WeatherDataCacheEntry,
+    ) {
 //        Log.d("CacheRegistry", "putEntry: $id ${entry.data}")
         cache[id] = entry
     }

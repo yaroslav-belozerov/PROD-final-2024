@@ -2,7 +2,6 @@ package com.yaabelozerov.venues.data.remote.foursquare.model
 
 import com.squareup.moshi.Json
 
-
 class Center {
     @Json(name = "latitude")
     var latitude: Double? = null

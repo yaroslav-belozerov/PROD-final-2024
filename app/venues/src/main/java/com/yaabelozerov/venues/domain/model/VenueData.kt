@@ -1,6 +1,6 @@
 package com.yaabelozerov.venues.domain.model
 
-data class VenueData (
+data class VenueData(
     val id: String,
     val name: String,
     val distance: String,

@@ -7,5 +7,5 @@ data class WeatherData(
     val temperature: String,
     val feelsLike: String,
     val lat: String,
-    val lon: String
+    val lon: String,
 )

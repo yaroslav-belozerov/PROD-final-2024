@@ -12,36 +12,44 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class VenuesCardViewModel @Inject constructor(
-    private val repository: VenuesRepository, private val locationTracker: LocationTracker
-) : ViewModel() {
-    val _venues = mutableStateOf(VenuesState())
-    val venues: State<VenuesState> = _venues
+class VenuesCardViewModel
+    @Inject
+    constructor(
+        private val repository: VenuesRepository,
+        private val locationTracker: LocationTracker,
+    ) : ViewModel() {
+        val venues = mutableStateOf(VenuesState())
+        val venuesState: State<VenuesState> = venues
 
-    fun loadVenues() {
-        viewModelScope.launch {
+        fun loadVenues() {
+            viewModelScope.launch {
 //            _venues.value = _venues.value.copy(isLoading = true, error = null)
-            try {
-                locationTracker.getCurrentLocation()?.let { location ->
-                    when (val result = repository.getVenues(
-                        lat = location.latitude, lon = location.longitude, radius = 1000
-                    )) {
-                        is Resource.Success -> _venues.value =
-                            _venues.value.copy(venues = result.data!!, isLoading = false, error = null)
+                try {
+                    locationTracker.getCurrentLocation()?.let { location ->
+                        when (
+                            val result =
+                                repository.getVenues(
+                                    lat = location.latitude, lon = location.longitude, radius = 1000,
+                                )
+                        ) {
+                            is Resource.Success ->
+                                venues.value =
+                                    venues.value.copy(venues = result.data!!, isLoading = false, error = null)
 
-                        is Resource.Error -> _venues.value =
-                            _venues.value.copy(isLoading = false, error = result.message)
+                            is Resource.Error ->
+                                venues.value =
+                                    venues.value.copy(isLoading = false, error = result.message)
+                        }
+                    } ?: kotlin.run {
+                        venues.value =
+                            venues.value.copy(
+                                isLoading = false,
+                                error = "Couldn't retrieve location. Make sure to grant permission and enable GPS.",
+                            )
                     }
-                } ?: kotlin.run {
-                    _venues.value = _venues.value.copy(
-                        isLoading = false,
-                        error = "Couldn't retrieve location. Make sure to grant permission and enable GPS."
-                    )
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
         }
     }
-}
-

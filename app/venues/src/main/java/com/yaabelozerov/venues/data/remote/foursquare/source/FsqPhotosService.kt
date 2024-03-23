@@ -10,6 +10,6 @@ interface FsqPhotosService {
     @GET("places/{fsq_id}/photos")
     fun getPhotos(
         @Header("Authorization") apiKey: String,
-        @Path(value = "fsq_id") fsqId: String
+        @Path(value = "fsq_id") fsqId: String,
     ): Call<List<FsqPhotosDTO>>
 }

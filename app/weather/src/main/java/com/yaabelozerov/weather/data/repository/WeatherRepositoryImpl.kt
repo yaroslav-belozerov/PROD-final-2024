@@ -1,28 +1,31 @@
 package com.yaabelozerov.weather.data.repository
 
-import android.util.Log
+import com.yaabelozerov.common.domain.Resource
 import com.yaabelozerov.weather.data.local.model.CacheRegistry
 import com.yaabelozerov.weather.data.local.model.WeatherDataCacheEntry
-import com.yaabelozerov.weather.data.remote.source.OwmWeatherApi
 import com.yaabelozerov.weather.data.remote.mapper.OwmWeatherToDomainMapper
+import com.yaabelozerov.weather.data.remote.source.OwmWeatherApi
 import com.yaabelozerov.weather.domain.model.WeatherData
 import com.yaabelozerov.weather.domain.repository.WeatherRepository
-import com.yaabelozerov.common.domain.Resource
 import retrofit2.await
 import javax.inject.Inject
 
-class WeatherRepositoryImpl @Inject constructor(
-    private val owmApi: OwmWeatherApi,
-    private val cacheRegistry: CacheRegistry<WeatherDataCacheEntry>
-) : WeatherRepository {
-    override suspend fun getWeatherData(
-        lat: Double, lon: Double, lang: String?
-    ): Resource<WeatherData> {
-        return try {
-            val mapper = OwmWeatherToDomainMapper()
-            val dto = owmApi.weatherByCoordinates(lat, lon, lang).await()
-            val data = mapper.mapToDomainModel(dto)
-            Resource.Success(data = data)
+class WeatherRepositoryImpl
+    @Inject
+    constructor(
+        private val owmApi: OwmWeatherApi,
+        private val cacheRegistry: CacheRegistry<WeatherDataCacheEntry>,
+    ) : WeatherRepository {
+        override suspend fun getWeatherData(
+            lat: Double,
+            lon: Double,
+            lang: String?,
+        ): Resource<WeatherData> {
+            return try {
+                val mapper = OwmWeatherToDomainMapper()
+                val dto = owmApi.weatherByCoordinates(lat, lon, lang).await()
+                val data = mapper.mapToDomainModel(dto)
+                Resource.Success(data = data)
 
 //            val cached = cacheRegistry.getEntry("${lat.toInt()}_${lon.toInt()}$lang")
 //            val cacheEntryMapper =
@@ -44,9 +47,9 @@ class WeatherRepositoryImpl @Inject constructor(
 //            } else {
 //                Resource.Success(cacheEntryMapper.mapToDomainModel(cached))
 //            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Resource.Error(e.message ?: "Unexpected error")
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Resource.Error(e.message ?: "Unexpected error")
+            }
         }
     }
-}

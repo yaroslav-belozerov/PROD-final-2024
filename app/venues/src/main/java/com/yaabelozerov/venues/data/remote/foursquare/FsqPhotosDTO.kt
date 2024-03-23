@@ -2,7 +2,6 @@ package com.yaabelozerov.venues.data.remote.foursquare
 
 import com.squareup.moshi.Json
 
-
 class FsqPhotosDTO {
     @Json(name = "id")
     var id: String? = null

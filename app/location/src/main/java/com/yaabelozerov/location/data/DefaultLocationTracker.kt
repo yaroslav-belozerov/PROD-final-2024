@@ -24,15 +24,15 @@ class DefaultLocationTracker
         private val locationClient: FusedLocationProviderClient,
         private val application: Application,
     ) : LocationTracker {
-        private val _lastKnownLocation = MutableStateFlow<Location?>(null)
+        private val lastKnownLocation = MutableStateFlow<Location?>(null)
 
         private fun updateLocation(): Location? {
-            val hasAccessCoarsePermission =
+            val hasCoarsePermission =
                 ContextCompat.checkSelfPermission(
                     application, Manifest.permission.ACCESS_COARSE_LOCATION,
                 ) == PackageManager.PERMISSION_GRANTED
 
-            val hasAccessFinePermission =
+            val hasFinePermission =
                 ContextCompat.checkSelfPermission(
                     application, Manifest.permission.ACCESS_FINE_LOCATION,
                 ) == PackageManager.PERMISSION_GRANTED
@@ -47,10 +47,10 @@ class DefaultLocationTracker
                         )
                 )
 
-            if (!hasAccessCoarsePermission || !hasAccessFinePermission || !isGpsEnabled) {
+            if (!hasCoarsePermission || !hasFinePermission || !isGpsEnabled) {
                 Log.w(
                     "DefaultLocationTracker",
-                    "This module needs to have access to location and GPS: $hasAccessCoarsePermission $hasAccessFinePermission $isGpsEnabled",
+                    "This module needs to have access to location and GPS: $hasCoarsePermission $hasFinePermission $isGpsEnabled",
                 )
                 return null
             }
@@ -66,16 +66,16 @@ class DefaultLocationTracker
         override suspend fun getCurrentLocation(): Location? {
             delay(3000)
             return suspendCancellableCoroutine { continuation ->
-                _lastKnownLocation.value = updateLocation()
-                continuation.resume(_lastKnownLocation.value)
+                lastKnownLocation.value = updateLocation()
+                continuation.resume(lastKnownLocation.value)
             }
         }
 
         private val locationListener: LocationListener =
             object : LocationListener {
                 override fun onLocationChanged(location: Location) {
-                    _lastKnownLocation.value = location
-                    Log.d("DefaultLocationTracker_lastKnown", _lastKnownLocation.toString())
+                    lastKnownLocation.value = location
+                    Log.d("DefaultLocationTracker_lastKnown", lastKnownLocation.toString())
                 }
 
                 override fun onStatusChanged(

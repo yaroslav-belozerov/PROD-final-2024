@@ -17,7 +17,7 @@ fun MainScreen() {
     val venuesCardViewModel: VenuesCardViewModel = viewModel()
 
     val weather = weatherCardViewModel.weather
-    val venues = venuesCardViewModel.venues
+    val venues = venuesCardViewModel.venuesState
     venuesCardViewModel.loadVenues()
     weatherCardViewModel.loadWeatherInfo()
 

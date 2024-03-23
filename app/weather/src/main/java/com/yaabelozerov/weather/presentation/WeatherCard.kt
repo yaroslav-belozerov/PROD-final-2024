@@ -27,9 +27,7 @@ import com.yaabelozerov.common.presentation.ShimmerSpacer
 import com.yaabelozerov.weather.domain.model.WeatherData
 
 @Composable
-fun WeatherCardSingle(
-    state: WeatherState = WeatherState()
-) {
+fun WeatherCardSingle(state: WeatherState = WeatherState()) {
     Crossfade(targetState = state, label = "card crossfade") {
         if (it.error == null) {
             if (it.isLoading) {
@@ -47,12 +45,13 @@ fun WeatherCardSingle(
     }
 }
 
-
 @Composable
 fun WeatherCard(data: WeatherData) {
     WeatherCardSkeleton(place = { Text(text = data.place) }, image = {
         GlideImage(
-            model = data.iconUrl, contentDescription = "None", modifier = Modifier.size(64.dp)
+            model = data.iconUrl,
+            contentDescription = "None",
+            modifier = Modifier.size(64.dp),
         )
     }, data = {
         Column {
@@ -99,20 +98,22 @@ fun ErrorWeatherCard(error: String) {
 fun WeatherCardSkeleton(
     place: @Composable (() -> Unit)?,
     image: @Composable (() -> Unit)?,
-    data: @Composable (() -> Unit)?
+    data: @Composable (() -> Unit)?,
 ) {
     ElevatedCard(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-            .height(128.dp),
-        elevation = CardDefaults.cardElevation(8.dp)
+        modifier =
+            Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+                .height(128.dp),
+        elevation = CardDefaults.cardElevation(8.dp),
     ) {
         Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxHeight(),
-            verticalArrangement = Arrangement.Center
+            modifier =
+                Modifier
+                    .padding(16.dp)
+                    .fillMaxHeight(),
+            verticalArrangement = Arrangement.Center,
         ) {
             place?.invoke()
             Row(verticalAlignment = Alignment.CenterVertically) {

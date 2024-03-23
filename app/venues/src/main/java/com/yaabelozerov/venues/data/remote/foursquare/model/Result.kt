@@ -2,7 +2,6 @@ package com.yaabelozerov.venues.data.remote.foursquare.model
 
 import com.squareup.moshi.Json
 
-
 class Result {
     @Json(name = "fsq_id")
     var fsqId: String? = null

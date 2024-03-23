@@ -33,7 +33,6 @@ import com.yaabelozerov.venues.domain.model.BundledVenueData
 
 @Composable
 fun VenuesCard(state: VenuesState = VenuesState()) {
-
     Crossfade(targetState = state, label = "card crossfade") {
         if (it.error == null) {
             if (!it.isLoading && it.venues.isNotEmpty()) {
@@ -45,18 +44,18 @@ fun VenuesCard(state: VenuesState = VenuesState()) {
             VenueCardSkeleton(
                 title = { Text(text = "Unexpected error: ${it.error}") },
                 image = null,
-                details = null
+                details = null,
             )
         }
     }
-
 }
 
 @Composable
 fun LoadingVenueCard() {
     LazyColumn {
         items(5) {
-            VenueCardSkeleton(title = { ShimmerSpacer(width = 384f, height = 32f) },
+            VenueCardSkeleton(
+                title = { ShimmerSpacer(width = 384f, height = 32f) },
                 image = null,
                 details = {
                     Spacer(modifier = Modifier.height(4.dp))
@@ -67,7 +66,8 @@ fun LoadingVenueCard() {
                         Spacer(modifier = Modifier.weight(1f))
                         ShimmerSpacer(width = 64f, height = 16f)
                     }
-                })
+                },
+            )
         }
     }
 }
@@ -76,13 +76,14 @@ fun LoadingVenueCard() {
 fun VenueCardSkeleton(
     title: @Composable (() -> Unit)?,
     image: @Composable (() -> Unit)?,
-    details: @Composable (() -> Unit)?
+    details: @Composable (() -> Unit)?,
 ) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp, 8.dp),
-        elevation = CardDefaults.cardElevation(8.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp, 8.dp),
+        elevation = CardDefaults.cardElevation(8.dp),
     ) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             image?.invoke()
@@ -93,11 +94,15 @@ fun VenueCardSkeleton(
 }
 
 @Composable
-fun VenueCardDetails(address: String, isClosed: Boolean, proximity: String) {
+fun VenueCardDetails(
+    address: String,
+    isClosed: Boolean,
+    proximity: String,
+) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Image(
             painter = painterResource(R.drawable.icons8_location),
-            contentDescription = "location icon"
+            contentDescription = "location icon",
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(text = address)
@@ -105,7 +110,8 @@ fun VenueCardDetails(address: String, isClosed: Boolean, proximity: String) {
     Row {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Image(
-                painter = painterResource(R.drawable.icons8_map), contentDescription = "map icon"
+                painter = painterResource(R.drawable.icons8_map),
+                contentDescription = "map icon",
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(text = "$proximity м")
@@ -121,19 +127,23 @@ fun FilledVenueCard(venues: List<BundledVenueData>) {
         items(venues.size) { index ->
             VenueCardSkeleton(title = {
                 Text(
-                    text = venues[index].venueData.name, fontSize = 24.sp
+                    text = venues[index].venueData.name,
+                    fontSize = 24.sp,
                 )
             }, image = {
-                if (venues[index].photos.isNotEmpty()) GlideImage(
-                    model = venues[index].photos.first(),
-                    contentDescription = "venue image",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(128.dp)
-                        .clip(shape = CardDefaults.shape),
-                    loading = placeholder(R.drawable.landscape_placeholder),
-                    contentScale = ContentScale.Crop
-                )
+                if (venues[index].photos.isNotEmpty()) {
+                    GlideImage(
+                        model = venues[index].photos.first(),
+                        contentDescription = "venue image",
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(128.dp)
+                                .clip(shape = CardDefaults.shape),
+                        loading = placeholder(R.drawable.landscape_placeholder),
+                        contentScale = ContentScale.Crop,
+                    )
+                }
             }, details = {
                 VenueCardDetails(
                     address = venues[index].venueData.address,
@@ -141,32 +151,38 @@ fun FilledVenueCard(venues: List<BundledVenueData>) {
                     proximity = venues[index].venueData.distance,
                 )
             })
-
         }
     }
 }
 
 @Composable
-fun VenueCardSingle(state: VenuesState, index: Int) {
-    Crossfade(targetState = state) {targetState ->
+fun VenueCardSingle(
+    state: VenuesState,
+    index: Int,
+) {
+    Crossfade(targetState = state) { targetState ->
         if (targetState.error == null) {
             if (!targetState.isLoading && targetState.venues.isNotEmpty()) {
                 val venue = targetState.venues[index]
                 VenueCardSkeleton(title = {
                     Text(
-                        text = venue.venueData.name, fontSize = 24.sp
+                        text = venue.venueData.name,
+                        fontSize = 24.sp,
                     )
                 }, image = {
-                    if (venue.photos.isNotEmpty()) GlideImage(
-                        model = venue.photos.first(),
-                        contentDescription = "venue image",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(128.dp)
-                            .clip(shape = CardDefaults.shape),
-                        loading = placeholder(R.drawable.landscape_placeholder),
-                        contentScale = ContentScale.Crop
-                    )
+                    if (venue.photos.isNotEmpty()) {
+                        GlideImage(
+                            model = venue.photos.first(),
+                            contentDescription = "venue image",
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .height(128.dp)
+                                    .clip(shape = CardDefaults.shape),
+                            loading = placeholder(R.drawable.landscape_placeholder),
+                            contentScale = ContentScale.Crop,
+                        )
+                    }
                 }, details = {
                     VenueCardDetails(
                         address = venue.venueData.address,
@@ -181,7 +197,7 @@ fun VenueCardSingle(state: VenuesState, index: Int) {
             VenueCardSkeleton(
                 title = { Text(text = "Unexpected error: ${targetState.error}") },
                 image = null,
-                details = null
+                details = null,
             )
         }
     }
@@ -189,7 +205,8 @@ fun VenueCardSingle(state: VenuesState, index: Int) {
 
 @Composable
 fun LoadingCardSingle() {
-    VenueCardSkeleton(title = { ShimmerSpacer(width = 384f, height = 32f) },
+    VenueCardSkeleton(
+        title = { ShimmerSpacer(width = 384f, height = 32f) },
         image = null,
         details = {
             Spacer(modifier = Modifier.height(4.dp))
@@ -200,5 +217,6 @@ fun LoadingCardSingle() {
                 Spacer(modifier = Modifier.weight(1f))
                 ShimmerSpacer(width = 64f, height = 16f)
             }
-        })
+        },
+    )
 }

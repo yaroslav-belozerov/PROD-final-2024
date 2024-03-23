@@ -3,7 +3,6 @@ package com.yaabelozerov.venues.data.remote.foursquare.model
 import android.graphics.drawable.Icon
 import com.squareup.moshi.Json
 
-
 class Category {
     @Json(name = "id")
     var id: Int? = null
