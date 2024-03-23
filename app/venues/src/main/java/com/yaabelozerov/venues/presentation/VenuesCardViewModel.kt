@@ -18,8 +18,8 @@ class VenuesCardViewModel
         private val repository: VenuesRepository,
         private val locationTracker: LocationTracker,
     ) : ViewModel() {
-        val venues = mutableStateOf(VenuesState())
-        val venuesState: State<VenuesState> = venues
+        private val _venues = mutableStateOf(VenuesState())
+        val venues: State<VenuesState> = _venues
 
         fun loadVenues() {
             viewModelScope.launch {
@@ -33,16 +33,16 @@ class VenuesCardViewModel
                                 )
                         ) {
                             is Resource.Success ->
-                                venues.value =
-                                    venues.value.copy(venues = result.data!!, isLoading = false, error = null)
+                                _venues.value =
+                                    _venues.value.copy(venues = result.data!!, isLoading = false, error = null)
 
                             is Resource.Error ->
-                                venues.value =
-                                    venues.value.copy(isLoading = false, error = result.message)
+                                _venues.value =
+                                    _venues.value.copy(isLoading = false, error = result.message)
                         }
                     } ?: kotlin.run {
-                        venues.value =
-                            venues.value.copy(
+                        _venues.value =
+                            _venues.value.copy(
                                 isLoading = false,
                                 error = "Couldn't retrieve location. Make sure to grant permission and enable GPS.",
                             )

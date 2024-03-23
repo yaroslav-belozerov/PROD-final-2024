@@ -5,29 +5,21 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.yaabelozerov.venues.presentation.VenueCardSingle
-import com.yaabelozerov.venues.presentation.VenuesCardViewModel
 import com.yaabelozerov.weather.presentation.WeatherCardSingle
-import com.yaabelozerov.weather.presentation.WeatherCardViewModel
 
 @Composable
-fun MainScreen() {
-    val weatherCardViewModel: WeatherCardViewModel = viewModel()
-    val venuesCardViewModel: VenuesCardViewModel = viewModel()
-
-    val weather = weatherCardViewModel.weather
-    val venues = venuesCardViewModel.venuesState
-    venuesCardViewModel.loadVenues()
-    weatherCardViewModel.loadWeatherInfo()
-
+fun MainScreen(state: MainScreenState) {
     MaterialTheme {
-        LazyColumn(Modifier.wrapContentHeight()) {
+        LazyColumn(
+            Modifier
+                .wrapContentHeight(),
+        ) {
             item {
-                WeatherCardSingle(state = weather.value)
+                WeatherCardSingle(state = state.weatherState)
             }
-            items(maxOf(venues.value.venues.size, 5)) { index ->
-                VenueCardSingle(state = venues.value, index = index)
+            items(maxOf(state.venuesState.venues.size, 5)) { index ->
+                VenueCardSingle(state = state.venuesState, index = index)
             }
         }
     }
