@@ -22,39 +22,47 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 
-
 @Composable
-fun ShimmerSpacer(width: Float, height: Float, modifier: Modifier = Modifier) {
+fun ShimmerSpacer(
+    width: Float,
+    height: Float,
+    modifier: Modifier = Modifier,
+) {
     Spacer(
-        modifier = Modifier.width(width.dp).height(height.dp).clip(shape = Constants.Shimmer.shape)
-            .shimmer(
-                Constants.Shimmer.colors
-            ).then(modifier)
+        modifier =
+            Modifier.width(width.dp).height(height.dp).clip(shape = Constants.Shimmer.shape)
+                .shimmer(
+                    Constants.Shimmer.colors,
+                ).then(modifier),
     )
 }
 
-
-fun Modifier.shimmer(colors: List<Color>): Modifier = composed {
-    var size by remember {
-        mutableStateOf(
-            IntSize.Zero
+fun Modifier.shimmer(colors: List<Color>): Modifier =
+    composed {
+        var size by remember {
+            mutableStateOf(
+                IntSize.Zero,
+            )
+        }
+        val transition = rememberInfiniteTransition(label = "Shimmer")
+        val startOffsetX by transition.animateFloat(
+            initialValue = -2 * size.width.toFloat(),
+            targetValue = 2 * size.width.toFloat(),
+            animationSpec =
+                infiniteRepeatable(
+                    animation = tween(Constants.Shimmer.duration),
+                ),
+            label = "startOffsetX",
         )
-    }
-    val transition = rememberInfiniteTransition(label = "Shimmer")
-    val startOffsetX by transition.animateFloat(
-        initialValue = -2 * size.width.toFloat(),
-        targetValue = 2 * size.width.toFloat(),
-        animationSpec = infiniteRepeatable(
-            animation = tween(Constants.Shimmer.duration),
-        ),
-        label = "startOffsetX"
-    )
 
-    background(
-        brush = Brush.horizontalGradient(
-            colors = colors, startX = startOffsetX, endX = startOffsetX + size.width.toFloat()
-        )
-    ).onGloballyPositioned {
-        size = it.size
+        background(
+            brush =
+                Brush.horizontalGradient(
+                    colors = colors,
+                    startX = startOffsetX,
+                    endX = startOffsetX + size.width.toFloat(),
+                ),
+        ).onGloballyPositioned {
+            size = it.size
+        }
     }
-}

@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.yaabelozerov.venues.presentation.VenueCardSingle
 import com.yaabelozerov.venues.presentation.VenuesCardViewModel
-import com.yaabelozerov.weather.presentation.WeatherCard
 import com.yaabelozerov.weather.presentation.WeatherCardSingle
 import com.yaabelozerov.weather.presentation.WeatherCardViewModel
 

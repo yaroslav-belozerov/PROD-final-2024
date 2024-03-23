@@ -9,6 +9,7 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0-Beta4"
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 var fsqPlacesApiKey = "00000000000000000000000000000000"
@@ -18,7 +19,7 @@ try {
     apikeyProperties.load(FileInputStream(apikeyPropertiesFile))
     fsqPlacesApiKey = apikeyProperties["FSQ_PLACES_API_KEY"].toString()
 } catch (e: FileNotFoundException) {
-    logger.warn("No secrets.properties file found. Using default value: ${fsqPlacesApiKey}.")
+    logger.warn("No secrets.properties file found. Using default value: $fsqPlacesApiKey.")
 } catch (e: Exception) {
     throw e
 }
@@ -41,7 +42,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
