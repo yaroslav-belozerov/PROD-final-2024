@@ -15,10 +15,9 @@ class FsqPlacesApi : FsqPlacesApiService {
         apiKey: String,
         coordinates: String,
         radius: Int,
+        fields: String,
     ): Call<FsqPlacesDTO> {
-        val moshi =
-            Moshi.Builder()
-                .add(KotlinJsonAdapterFactory()).build()
+        val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
         val retrofit =
             Retrofit.Builder().baseUrl("https://api.foursquare.com/v3/places/")
@@ -28,6 +27,7 @@ class FsqPlacesApi : FsqPlacesApiService {
                 apiKey = apiKey,
                 coordinates = coordinates,
                 radius = radius,
+                fields = fields,
             )
 
         call.clone().enqueue(

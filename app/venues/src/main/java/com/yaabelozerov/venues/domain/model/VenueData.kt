@@ -6,4 +6,5 @@ data class VenueData(
     val distance: String,
     val address: String,
     val isClosed: Boolean,
+    val photos: List<String>,
 )

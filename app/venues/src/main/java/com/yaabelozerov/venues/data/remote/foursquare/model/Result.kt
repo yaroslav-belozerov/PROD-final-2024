@@ -35,4 +35,7 @@ class Result {
 //
 //    @Json(name = "timezone")
 //    var timezone: String? = null
+
+    @Json(name = "photos")
+    var photos: List<Photo>? = null
 }

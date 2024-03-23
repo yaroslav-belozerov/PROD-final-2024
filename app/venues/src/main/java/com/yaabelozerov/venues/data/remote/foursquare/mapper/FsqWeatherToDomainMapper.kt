@@ -16,6 +16,7 @@ class FsqWeatherToDomainMapper : DomainMapper<Result, VenueData> {
                     else -> false
                 },
             address = obj.location?.formattedAddress.toString(),
+            photos = obj.photos?.map { it.prefix + "original" + it.suffix } ?: listOf(),
         )
     }
 }

@@ -12,5 +12,6 @@ interface FsqPlacesApiService {
         @Header("Authorization") apiKey: String,
         @Query("ll") coordinates: String,
         @Query("radius") radius: Int,
+        @Query("fields") fields: String,
     ): Call<FsqPlacesDTO>
 }

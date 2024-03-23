@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalGlideComposeApi::class)
+@file:OptIn(ExperimentalGlideComposeApi::class, ExperimentalGlideComposeApi::class)
 
 package com.yaabelozerov.venues.presentation
 
@@ -29,7 +29,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.yaabelozerov.common.presentation.ShimmerSpacer
 import com.yaabelozerov.venues.R
-import com.yaabelozerov.venues.domain.model.BundledVenueData
+import com.yaabelozerov.venues.domain.model.VenueData
 
 @Composable
 fun VenuesCard(state: VenuesState = VenuesState()) {
@@ -122,12 +122,12 @@ fun VenueCardDetails(
 }
 
 @Composable
-fun FilledVenueCard(venues: List<BundledVenueData>) {
+fun FilledVenueCard(venues: List<VenueData>) {
     LazyColumn {
         items(venues.size) { index ->
             VenueCardSkeleton(title = {
                 Text(
-                    text = venues[index].venueData.name,
+                    text = venues[index].name,
                     fontSize = 24.sp,
                 )
             }, image = {
@@ -146,9 +146,9 @@ fun FilledVenueCard(venues: List<BundledVenueData>) {
                 }
             }, details = {
                 VenueCardDetails(
-                    address = venues[index].venueData.address,
-                    isClosed = venues[index].venueData.isClosed,
-                    proximity = venues[index].venueData.distance,
+                    address = venues[index].address,
+                    isClosed = venues[index].isClosed,
+                    proximity = venues[index].distance,
                 )
             })
         }
@@ -166,7 +166,7 @@ fun VenueCardSingle(
                 val venue = targetState.venues[index]
                 VenueCardSkeleton(title = {
                     Text(
-                        text = venue.venueData.name,
+                        text = venue.name,
                         fontSize = 24.sp,
                     )
                 }, image = {
@@ -185,9 +185,9 @@ fun VenueCardSingle(
                     }
                 }, details = {
                     VenueCardDetails(
-                        address = venue.venueData.address,
-                        isClosed = venue.venueData.isClosed,
-                        proximity = venue.venueData.distance,
+                        address = venue.address,
+                        isClosed = venue.isClosed,
+                        proximity = venue.distance,
                     )
                 })
             } else {
