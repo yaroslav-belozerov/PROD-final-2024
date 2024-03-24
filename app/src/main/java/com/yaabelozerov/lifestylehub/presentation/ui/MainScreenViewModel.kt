@@ -19,7 +19,7 @@ class MainScreenViewModel : ViewModel() {
         _main.value =
             _main.value.copy(
                 weatherState = weatherViewModel.weather.value,
-                venuesState = venuesCardViewModel.venues.value,
+                venuesState = venuesCardViewModel.state.value,
             )
     }
 }

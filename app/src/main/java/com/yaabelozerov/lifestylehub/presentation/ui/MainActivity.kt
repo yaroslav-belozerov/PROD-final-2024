@@ -61,8 +61,8 @@ class MainActivity : ComponentActivity() {
             val weatherCardViewModel: WeatherCardViewModel = hiltViewModel()
             val venuesCardViewModel: VenuesCardViewModel = hiltViewModel()
 
-            val mainScrenViewModel: MainScreenViewModel = hiltViewModel()
-            mainScrenViewModel.loadMainScreen(weatherCardViewModel, venuesCardViewModel)
+            val mainScreenViewModel: MainScreenViewModel = hiltViewModel()
+            mainScreenViewModel.loadMainScreen(weatherCardViewModel, venuesCardViewModel)
 
             var selectedIndex by rememberSaveable {
                 mutableStateOf(0)
@@ -90,7 +90,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.padding(it),
                 ) {
                     composable(route = Screens.MainScreen.route) {
-                        MainScreen(state = mainScrenViewModel.main.value)
+                        MainScreen(state = mainScreenViewModel.main.value)
                     }
                     composable(route = Screens.NotesScreen.route) {
                         NotesScreen()
