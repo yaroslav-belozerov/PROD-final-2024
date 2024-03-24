@@ -9,8 +9,6 @@ import com.yaabelozerov.venues.domain.repository.VenuesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,35 +19,35 @@ class VenuesCardViewModel
         private val repository: VenuesRepository,
         private val locationTracker: LocationTracker,
     ) : ViewModel() {
-        private val _state = MutableStateFlow(VenuesState(isLoading = true, error = null, venues = emptyList()))
-        val state = this._state.asStateFlow()
+        private var _venues = MutableStateFlow(VenuesState())
+        val venues = _venues.asStateFlow()
 
         fun loadVenues() {
             Log.i("Function Call", "loadVenues")
             viewModelScope.launch {
-//            _venues.value = _venues.value.copy(isLoading = true, error = null)
                 try {
                     locationTracker.getCurrentLocation()?.let { location ->
                         repository.getVenues(
                             lat = location.latitude, lon = location.longitude, radius = 1000,
-                        ).collectLatest { result ->
+                        ).collect { result ->
                             when (result) {
                                 is Resource.Error -> {
                                     Log.e("Error getting venues", "${result.message}")
-                                    _state.update { VenuesState(venues = emptyList(), error = result.message, isLoading = false) }
+                                    _venues.emit(VenuesState(venues = emptyList(), error = result.message, isLoading = false))
                                 }
 
                                 is Resource.Success -> {
-                                    _state.update { VenuesState(venues = result.data!!, error = null, isLoading = false) }
+                                    Log.i("Got venues!", "${result.data}")
+                                    _venues.emit(VenuesState(venues = result.data!!, error = null, isLoading = false))
                                 }
                             }
                         }
                     } ?: kotlin.run {
                         Log.e("Error getting location", "location is null")
-                        _state.update { VenuesState(venues = emptyList(), error = "location is null", isLoading = false) }
+                        _venues.emit(VenuesState(venues = emptyList(), error = "location is null", isLoading = false))
                     }
                 } catch (e: Exception) {
-                    _state.update { VenuesState(venues = emptyList(), error = e.message, isLoading = false) }
+                    _venues.emit(VenuesState(venues = emptyList(), error = e.message ?: "Unknown error", isLoading = false))
                     e.printStackTrace()
                 }
             }

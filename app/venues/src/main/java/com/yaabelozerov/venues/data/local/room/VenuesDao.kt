@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface VenuesDao {
     @Upsert
-    suspend fun insert(venuesEntity: VenueData)
+    suspend fun upsert(venuesEntity: VenueData)
 
     @Delete
     suspend fun delete(venuesEntity: VenueData)
@@ -21,7 +21,7 @@ interface VenuesDao {
     @Query("SELECT * FROM VenueData where latlon = :latlon and timeStamp > :timestamp")
     fun getByLatLonAfterTimestampLatest(
         latlon: String,
-        timestamp: String,
+        timestamp: Long,
     ): Flow<List<VenueData>>
 
     @Query("SELECT * FROM VenueData where isFavourite = 1")

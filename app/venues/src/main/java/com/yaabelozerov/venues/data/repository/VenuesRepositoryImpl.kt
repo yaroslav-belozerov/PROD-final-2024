@@ -6,12 +6,12 @@ import com.yaabelozerov.venues.BuildConfig
 import com.yaabelozerov.venues.data.local.room.VenuesDao
 import com.yaabelozerov.venues.data.remote.foursquare.mapper.FsqWeatherToDomainMapper
 import com.yaabelozerov.venues.data.remote.foursquare.source.FsqPlacesApi
+import com.yaabelozerov.venues.data.util.Constants
 import com.yaabelozerov.venues.domain.model.VenueData
 import com.yaabelozerov.venues.domain.repository.VenuesRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
-import java.time.LocalTime
 import javax.inject.Inject
 
 class VenuesRepositoryImpl
@@ -28,8 +28,8 @@ class VenuesRepositoryImpl
             channelFlow {
                 try {
                     venuesDao.getByLatLonAfterTimestampLatest(
-                        latlon = "$lat,$lon",
-                        timestamp = LocalTime.now().minusHours(1).toString(),
+                        latlon = "${lat.toInt()},${lon.toInt()}",
+                        timestamp = System.currentTimeMillis() - Constants.CACHED_HRS * 60 * 60 * 1000,
                     ).collect { listOfVenues ->
                         if (listOfVenues.isNotEmpty()) {
                             Log.d("sent_from_db", listOfVenues.toString())
@@ -48,18 +48,19 @@ class VenuesRepositoryImpl
                                             "location",
                                             "name",
                                             "photos",
+                                            "geocodes",
                                         ).joinToString(separator = ","),
                                 )
                             Log.d("sent_from_api", dto.toString())
+                            val mapped =
+                                dto.results!!.map {
+                                    FsqWeatherToDomainMapper().mapToDomainModel(
+                                        it,
+                                    )
+                                }
+                            mapped.forEach { venuesDao.upsert(it) }
                             send(
-                                Resource.Success(
-                                    data =
-                                        dto.results!!.map {
-                                            FsqWeatherToDomainMapper().mapToDomainModel(
-                                                it,
-                                            )
-                                        },
-                                ),
+                                Resource.Success(mapped),
                             )
                         }
                     }

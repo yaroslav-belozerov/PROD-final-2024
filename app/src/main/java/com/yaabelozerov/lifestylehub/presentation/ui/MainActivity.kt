@@ -17,6 +17,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -62,8 +63,12 @@ class MainActivity : ComponentActivity() {
             val weatherCardViewModel: WeatherCardViewModel = hiltViewModel()
             val venuesCardViewModel: VenuesCardViewModel = hiltViewModel()
 
-            val mainScreenViewModel: MainScreenViewModel = hiltViewModel()
-            mainScreenViewModel.loadMainScreen(weatherCardViewModel, venuesCardViewModel)
+            val w by weatherCardViewModel.weather.collectAsState()
+            val v by venuesCardViewModel.venues.collectAsState()
+
+            weatherCardViewModel.loadWeatherInfo()
+            venuesCardViewModel.loadVenues()
+
             Log.i("Function Call", "onCreate")
 
             var selectedIndex by rememberSaveable {
@@ -92,7 +97,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.padding(it),
                 ) {
                     composable(route = Screens.MainScreen.route) {
-                        MainScreen(state = mainScreenViewModel.main.value)
+                        MainScreen(weatherState = w, venuesState = v)
                     }
                     composable(route = Screens.NotesScreen.route) {
                         NotesScreen()

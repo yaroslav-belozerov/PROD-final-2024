@@ -1,14 +1,14 @@
 package com.yaabelozerov.weather.presentation
 
 import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaabelozerov.common.domain.Resource
 import com.yaabelozerov.location.domain.LocationTracker
 import com.yaabelozerov.weather.domain.repository.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
@@ -20,8 +20,8 @@ class WeatherCardViewModel
         private val repository: WeatherRepository,
         private val locationTracker: LocationTracker,
     ) : ViewModel() {
-        private val _weather = mutableStateOf(WeatherState())
-        val weather: State<WeatherState> = _weather
+        private val _weather = MutableStateFlow(WeatherState())
+        val weather = _weather.asStateFlow()
 
         fun loadWeatherInfo() {
             viewModelScope.launch {

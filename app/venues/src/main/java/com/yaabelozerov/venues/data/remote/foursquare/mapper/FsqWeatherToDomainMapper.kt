@@ -1,12 +1,13 @@
 package com.yaabelozerov.venues.data.remote.foursquare.mapper
 
+import android.util.Log
 import com.yaabelozerov.common.domain.DomainMapper
 import com.yaabelozerov.venues.data.remote.foursquare.model.Result
 import com.yaabelozerov.venues.domain.model.VenueData
-import java.time.LocalTime
 
 class FsqWeatherToDomainMapper : DomainMapper<Result, VenueData> {
     override fun mapToDomainModel(obj: Result): VenueData {
+        Log.d("MAPPER", obj.geocodes?.main.toString())
         return VenueData(
             id = obj.fsqId.toString(),
             name = obj.name.toString(),
@@ -18,8 +19,8 @@ class FsqWeatherToDomainMapper : DomainMapper<Result, VenueData> {
                 },
             address = obj.location?.formattedAddress.toString(),
             photos = obj.photos?.map { it.prefix + "original" + it.suffix } ?: listOf(),
-            latlon = obj.geocodes?.main?.latitude.toString() + "," + obj.geocodes?.main?.longitude.toString(),
-            timeStamp = LocalTime.now().toString(),
+            latlon = obj.geocodes?.main?.latitude?.toInt().toString() + "," + obj.geocodes?.main?.longitude?.toInt().toString(),
+            timeStamp = System.currentTimeMillis(),
             isFavourite = false,
         )
     }

@@ -13,6 +13,6 @@ data class VenueData(
     val isClosed: Boolean,
     val photos: List<String>,
     val latlon: String,
-    val timeStamp: String,
+    val timeStamp: Long,
     val isFavourite: Boolean,
 )

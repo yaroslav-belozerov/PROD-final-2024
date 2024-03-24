@@ -6,20 +6,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.yaabelozerov.venues.presentation.VenueCardSingle
+import com.yaabelozerov.venues.presentation.VenuesState
 import com.yaabelozerov.weather.presentation.WeatherCardSingle
+import com.yaabelozerov.weather.presentation.WeatherState
 
 @Composable
-fun MainScreen(state: MainScreenState) {
+fun MainScreen(
+    weatherState: WeatherState,
+    venuesState: VenuesState,
+) {
     MaterialTheme {
         LazyColumn(
             Modifier
                 .wrapContentHeight(),
         ) {
             item {
-                WeatherCardSingle(state = state.weatherState)
+                WeatherCardSingle(state = weatherState)
             }
-            items(maxOf(state.venuesState.venues.size, 5)) { index ->
-                VenueCardSingle(state = state.venuesState, index = index)
+            items(maxOf(venuesState.venues.size, 5)) { index ->
+                VenueCardSingle(state = venuesState, index = index)
             }
         }
     }
