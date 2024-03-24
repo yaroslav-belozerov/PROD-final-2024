@@ -1,5 +1,6 @@
 package com.yaabelozerov.weather.presentation
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -26,6 +27,7 @@ class WeatherCardViewModel
             viewModelScope.launch {
 //            _weather.value = weather.value.copy(weatherData = null, isLoading = true, error = null)
                 try {
+                    Log.i("Function Call", "loadWeatherInfo")
                     locationTracker.getCurrentLocation()?.let { location ->
                         when (
                             val result =

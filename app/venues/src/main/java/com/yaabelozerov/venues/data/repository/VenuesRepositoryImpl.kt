@@ -1,49 +1,71 @@
 package com.yaabelozerov.venues.data.repository
 
+import android.util.Log
 import com.yaabelozerov.common.domain.Resource
 import com.yaabelozerov.venues.BuildConfig
+import com.yaabelozerov.venues.data.local.room.VenuesDao
 import com.yaabelozerov.venues.data.remote.foursquare.mapper.FsqWeatherToDomainMapper
 import com.yaabelozerov.venues.data.remote.foursquare.source.FsqPlacesApi
 import com.yaabelozerov.venues.domain.model.VenueData
 import com.yaabelozerov.venues.domain.repository.VenuesRepository
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.channelFlow
+import java.time.LocalTime
 import javax.inject.Inject
 
 class VenuesRepositoryImpl
     @Inject
     constructor(
         private val fsqPlacesApi: FsqPlacesApi,
+        private val venuesDao: VenuesDao,
     ) : VenuesRepository {
-        override suspend fun getVenues(
+        override fun getVenues(
             lat: Double,
             lon: Double,
             radius: Int,
         ): Flow<Resource<List<VenueData>>> =
-            flow {
-                val venues =
-                    try {
-                        val dto =
-                            fsqPlacesApi.placesByCoordinates(
-                                apiKey = BuildConfig.FSQ_PLACES_API_KEY,
-                                coordinates = "$lat,$lon",
-                                radius = 1000,
-                                fields =
-                                    listOf(
-                                        "fsq_id",
-                                        "closed_bucket",
-                                        "distance",
-                                        "location",
-                                        "name",
-                                        "photos",
-                                    ).joinToString(separator = ","),
+            channelFlow {
+                try {
+                    venuesDao.getByLatLonAfterTimestampLatest(
+                        latlon = "$lat,$lon",
+                        timestamp = LocalTime.now().minusHours(1).toString(),
+                    ).collect { listOfVenues ->
+                        if (listOfVenues.isNotEmpty()) {
+                            Log.d("sent_from_db", listOfVenues.toString())
+                            send(Resource.Success(listOfVenues))
+                        } else {
+                            val dto =
+                                fsqPlacesApi.placesByCoordinates(
+                                    apiKey = BuildConfig.FSQ_PLACES_API_KEY,
+                                    coordinates = "$lat,$lon",
+                                    radius = 1000,
+                                    fields =
+                                        listOf(
+                                            "fsq_id",
+                                            "closed_bucket",
+                                            "distance",
+                                            "location",
+                                            "name",
+                                            "photos",
+                                        ).joinToString(separator = ","),
+                                )
+                            Log.d("sent_from_api", dto.toString())
+                            send(
+                                Resource.Success(
+                                    data =
+                                        dto.results!!.map {
+                                            FsqWeatherToDomainMapper().mapToDomainModel(
+                                                it,
+                                            )
+                                        },
+                                ),
                             )
-                        dto.results!!.map { FsqWeatherToDomainMapper().mapToDomainModel(it) }
-                    } catch (e: Exception) {
-                        emit(Resource.Error(message = e.message ?: "Unknown error"))
-                        return@flow
+                        }
                     }
-
-                emit(Resource.Success(data = venues))
+                } catch (e: Exception) {
+                    send(Resource.Error(message = e.message ?: "Unknown error"))
+                }
+                awaitClose()
             }
     }

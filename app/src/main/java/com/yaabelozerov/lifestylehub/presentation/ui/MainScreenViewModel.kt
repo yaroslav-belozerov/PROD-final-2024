@@ -1,5 +1,6 @@
 package com.yaabelozerov.lifestylehub.presentation.ui
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,7 @@ class MainScreenViewModel : ViewModel() {
         weatherViewModel: WeatherCardViewModel,
         venuesCardViewModel: VenuesCardViewModel,
     ) {
+        Log.i("Function Call", "loadMainScreen")
         weatherViewModel.loadWeatherInfo()
         venuesCardViewModel.loadVenues()
         _main.value =

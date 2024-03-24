@@ -18,8 +18,8 @@ class Result {
     @Json(name = "distance")
     var distance: Int? = null
 
-//    @Json(name = "geocodes")
-//    var geocodes: Geocodes? = null
+    @Json(name = "geocodes")
+    var geocodes: Geocodes? = null
 //
 //    @Json(name = "link")
 //    var link: String? = null

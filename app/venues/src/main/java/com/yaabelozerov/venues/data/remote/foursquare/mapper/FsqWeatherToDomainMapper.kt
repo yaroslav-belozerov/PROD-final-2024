@@ -3,6 +3,7 @@ package com.yaabelozerov.venues.data.remote.foursquare.mapper
 import com.yaabelozerov.common.domain.DomainMapper
 import com.yaabelozerov.venues.data.remote.foursquare.model.Result
 import com.yaabelozerov.venues.domain.model.VenueData
+import java.time.LocalTime
 
 class FsqWeatherToDomainMapper : DomainMapper<Result, VenueData> {
     override fun mapToDomainModel(obj: Result): VenueData {
@@ -17,6 +18,9 @@ class FsqWeatherToDomainMapper : DomainMapper<Result, VenueData> {
                 },
             address = obj.location?.formattedAddress.toString(),
             photos = obj.photos?.map { it.prefix + "original" + it.suffix } ?: listOf(),
+            latlon = obj.geocodes?.main?.latitude.toString() + "," + obj.geocodes?.main?.longitude.toString(),
+            timeStamp = LocalTime.now().toString(),
+            isFavourite = false,
         )
     }
 }

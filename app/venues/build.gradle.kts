@@ -101,4 +101,6 @@ dependencies {
     implementation(libs.moshi.kotlin)
     implementation(libs.moshi)
     ksp(libs.moshi.kotlin.codegen)
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
 }

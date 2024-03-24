@@ -5,7 +5,7 @@ import com.yaabelozerov.venues.domain.model.VenueData
 import kotlinx.coroutines.flow.Flow
 
 interface VenuesRepository {
-    suspend fun getVenues(
+    fun getVenues(
         lat: Double,
         lon: Double,
         radius: Int,
