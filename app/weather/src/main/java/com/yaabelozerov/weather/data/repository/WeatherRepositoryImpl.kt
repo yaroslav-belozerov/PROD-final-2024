@@ -11,7 +11,7 @@ import javax.inject.Inject
 class WeatherRepositoryImpl
     @Inject
     constructor(
-        private val owmApi: OwmWeatherApi
+        private val owmApi: OwmWeatherApi,
     ) : WeatherRepository {
         override suspend fun getWeatherData(
             lat: Double,

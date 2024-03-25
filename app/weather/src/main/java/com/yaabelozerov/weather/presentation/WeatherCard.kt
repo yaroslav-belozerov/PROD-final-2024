@@ -62,14 +62,14 @@ fun FilledWeatherCard(data: WeatherData) {
             model = data.iconUrl,
             contentDescription = "None",
             modifier =
-            Modifier.size(46.dp),
+                Modifier.size(46.dp),
             loading = placeholder(R.drawable.weather_icon_placeholder),
         )
     }, data = {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = data.temperature + Constants.DEGREE_SYMBOL + "C",
-                fontSize = Constants.Fonts.large
+                fontSize = Constants.Fonts.large,
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column(verticalArrangement = Arrangement.Center) {
@@ -84,17 +84,16 @@ fun FilledWeatherCard(data: WeatherData) {
                         }
                         Text(
                             text = "to ${data.tempMax}${Constants.DEGREE_SYMBOL}",
-                            fontSize = Constants.Fonts.small
+                            fontSize = Constants.Fonts.small,
                         )
                     }
                 }
                 Text(
                     text = "Feels like ${data.feelsLike}${Constants.DEGREE_SYMBOL}",
-                    fontSize = Constants.Fonts.small
+                    fontSize = Constants.Fonts.small,
                 )
             }
         }
-
     })
 }
 
@@ -119,7 +118,6 @@ fun LoadingWeatherCard() {
                 Row {
                     ShimmerSpacer(width = 80f, height = 48f)
                     Spacer(modifier = Modifier.width(8.dp))
-
                 }
                 Column {
                     ShimmerSpacer(width = 96f, height = 20f)
@@ -154,7 +152,7 @@ fun ErrorWeatherCard(error: String) {
 fun ErrorWeatherCardPreview() {
     ErrorWeatherCard(
         error =
-        "Unknown error, please try again or contact support. Lorem ipsum dolor sit amet " +
+            "Unknown error, please try again or contact support. Lorem ipsum dolor sit amet " +
                 "consectetur adipiscing elit. Donec ut nunc et sem ultrices auctor. ",
     )
 }
@@ -167,15 +165,15 @@ fun WeatherCardSkeleton(
 ) {
     ElevatedCard(
         modifier =
-        Modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
+            Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(8.dp),
     ) {
         Column(
             modifier =
-            Modifier
-                .padding(16.dp),
+                Modifier
+                    .padding(16.dp),
         ) {
             place?.invoke()
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
