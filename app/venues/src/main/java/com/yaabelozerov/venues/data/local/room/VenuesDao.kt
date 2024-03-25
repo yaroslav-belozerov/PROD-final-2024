@@ -19,11 +19,14 @@ interface VenuesDao {
     fun getByLatLon(latlon: String): Flow<List<VenueData>>
 
     @Query("SELECT * FROM VenueData where latlon = :latlon and timeStamp > :timestamp")
-    fun getByLatLonAfterTimestampLatest(
+    fun getByLatLonAfterTimestamp(
         latlon: String,
         timestamp: Long,
     ): Flow<List<VenueData>>
 
     @Query("SELECT * FROM VenueData where isFavourite = 1")
     fun getFavouriteVenues(): Flow<List<VenueData>>
+
+    @Query("DELETE FROM VenueData where timeStamp < :timestamp")
+    suspend fun invalidateCachesBeforeTimestamp(timestamp: Long)
 }

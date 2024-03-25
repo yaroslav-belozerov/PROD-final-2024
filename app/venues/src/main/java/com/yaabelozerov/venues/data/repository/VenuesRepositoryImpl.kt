@@ -27,9 +27,11 @@ class VenuesRepositoryImpl
         ): Flow<Resource<List<VenueData>>> =
             channelFlow {
                 try {
-                    venuesDao.getByLatLonAfterTimestampLatest(
+                    val cacheInvalidBreakpoint: Long = Constants.CACHED_HRS * 60 * 60 * 1000
+                    venuesDao.invalidateCachesBeforeTimestamp(cacheInvalidBreakpoint)
+                    venuesDao.getByLatLonAfterTimestamp(
                         latlon = "${lat.toInt()},${lon.toInt()}",
-                        timestamp = System.currentTimeMillis() - Constants.CACHED_HRS * 60 * 60 * 1000,
+                        timestamp = System.currentTimeMillis() - cacheInvalidBreakpoint,
                     ).collect { listOfVenues ->
                         if (listOfVenues.isNotEmpty()) {
                             Log.d("sent_from_db", listOfVenues.toString())
