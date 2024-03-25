@@ -1,15 +1,20 @@
 package com.yaabelozerov.lifestylehub.presentation.ui
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.yaabelozerov.venues.presentation.VenueCardSingle
+import com.yaabelozerov.venues.presentation.ErrorVenueCard
+import com.yaabelozerov.venues.presentation.LoadingVenueCard
+import com.yaabelozerov.venues.presentation.VenueCard
 import com.yaabelozerov.venues.presentation.VenuesState
 import com.yaabelozerov.weather.presentation.WeatherCard
 import com.yaabelozerov.weather.presentation.WeatherState
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen(
     weatherState: WeatherState,
@@ -21,10 +26,24 @@ fun MainScreen(
                 .wrapContentHeight(),
         ) {
             item {
-                WeatherCard(state = weatherState)
+                Crossfade(targetState = weatherState) { WeatherCard(state = it) }
             }
-            items(maxOf(venuesState.venues.size, 5)) { index ->
-                VenueCardSingle(state = venuesState, index = index)
+            if (venuesState.error == null) {
+                if (!venuesState.isLoading) {
+                    items(venuesState.venues.size) { index ->
+                        VenueCard(
+                            data = venuesState.venues[index]
+                        )
+                    }
+                } else {
+                    item { LoadingVenueCard() }
+                }
+            } else {
+                item {
+                    ErrorVenueCard(
+                        error = venuesState.error.toString()
+                    )
+                }
             }
         }
     }

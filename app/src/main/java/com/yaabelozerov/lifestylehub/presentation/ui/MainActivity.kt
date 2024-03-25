@@ -3,6 +3,7 @@ package com.yaabelozerov.lifestylehub.presentation.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -94,7 +95,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.padding(it),
                 ) {
                     composable(route = Screens.MainScreen.route) {
-                        MainScreen(weatherState = w, venuesState = v)
+                        Crossfade(targetState = v) { state ->
+                            MainScreen(
+                                weatherState = w,
+                                venuesState = state
+                            )
+                        }
                     }
                     composable(route = Screens.NotesScreen.route) {
                         NotesScreen()

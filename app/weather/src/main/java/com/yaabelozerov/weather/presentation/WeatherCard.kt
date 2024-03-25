@@ -31,22 +31,22 @@ import com.yaabelozerov.weather.R
 import com.yaabelozerov.weather.domain.model.WeatherData
 
 @Composable
-fun WeatherCard(state: WeatherState) {
-    Crossfade(targetState = state, label = "card crossfade") {
-        if (it.error == null) {
-            if (it.isLoading) {
+fun WeatherCard(modifier: Modifier = Modifier, state: WeatherState) {
+//    Crossfade(targetState = state, label = "card crossfade") {
+        if (state.error == null) {
+            if (state.isLoading) {
                 LoadingWeatherCard()
             } else {
-                if (it.weatherData != null) {
-                    FilledWeatherCard(data = it.weatherData)
+                if (state.weatherData != null) {
+                    FilledWeatherCard(data = state.weatherData)
                 } else {
                     LoadingWeatherCard()
                 }
             }
         } else {
-            ErrorWeatherCard(error = it.error)
+            ErrorWeatherCard(error = state.error)
         }
-    }
+//    }
 }
 
 @Composable
@@ -137,8 +137,8 @@ fun FilledWeatherCardPreview() {
 }
 
 @Composable
-fun ErrorWeatherCard(error: String) {
-    WeatherCardSkeleton(place = null, image = null, data = {
+fun ErrorWeatherCard(modifier: Modifier = Modifier, error: String) {
+    WeatherCardSkeleton(modifier = modifier, place = null, image = null, data = {
         Text(
             text = error,
             fontSize = Constants.Fonts.small,
@@ -159,6 +159,7 @@ fun ErrorWeatherCardPreview() {
 
 @Composable
 fun WeatherCardSkeleton(
+    modifier: Modifier = Modifier,
     place: @Composable (() -> Unit)?,
     image: @Composable (() -> Unit)?,
     data: @Composable (() -> Unit)?,
@@ -167,7 +168,7 @@ fun WeatherCardSkeleton(
         modifier =
             Modifier
                 .padding(16.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth().then(modifier),
         elevation = CardDefaults.cardElevation(8.dp),
     ) {
         Column(
