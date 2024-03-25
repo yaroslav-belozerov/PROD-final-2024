@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.yaabelozerov.venues.presentation.VenueCardSingle
 import com.yaabelozerov.venues.presentation.VenuesState
-import com.yaabelozerov.weather.presentation.WeatherCardSingle
+import com.yaabelozerov.weather.presentation.WeatherCard
 import com.yaabelozerov.weather.presentation.WeatherState
 
 @Composable
@@ -21,7 +21,7 @@ fun MainScreen(
                 .wrapContentHeight(),
         ) {
             item {
-                WeatherCardSingle(state = weatherState)
+                WeatherCard(state = weatherState)
             }
             items(maxOf(venuesState.venues.size, 5)) { index ->
                 VenueCardSingle(state = venuesState, index = index)

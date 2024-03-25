@@ -1,14 +1,15 @@
 package com.yaabelozerov.weather.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaabelozerov.common.domain.Resource
+import com.yaabelozerov.common.presentation.Constants
 import com.yaabelozerov.location.domain.LocationTracker
 import com.yaabelozerov.weather.domain.repository.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
@@ -25,9 +26,7 @@ class WeatherCardViewModel
 
         fun loadWeatherInfo() {
             viewModelScope.launch {
-//            _weather.value = weather.value.copy(weatherData = null, isLoading = true, error = null)
                 try {
-                    Log.i("Function Call", "loadWeatherInfo")
                     locationTracker.getCurrentLocation()?.let { location ->
                         when (
                             val result =
@@ -38,27 +37,41 @@ class WeatherCardViewModel
                                 )
                         ) {
                             is Resource.Success ->
-                                _weather.value =
-                                    weather.value.copy(
-                                        weatherData = result.data, isLoading = false, error = null,
+                                _weather.update {
+                                    WeatherState(
+                                        weatherData = result.data,
+                                        isLoading = false,
+                                        error = null,
                                     )
+                                }
 
                             is Resource.Error ->
-                                _weather.value =
-                                    weather.value.copy(
-                                        weatherData = null, isLoading = false, error = result.message,
+                                _weather.update {
+                                    WeatherState(
+                                        weatherData = null,
+                                        isLoading = false,
+                                        error = result.message,
                                     )
+                                }
                         }
                     } ?: kotlin.run {
-                        _weather.value =
-                            _weather.value.copy(
+                        _weather.update {
+                            WeatherState(
                                 weatherData = null,
                                 isLoading = false,
-                                error = "Couldn't retrieve location. Make sure to grant permission and enable GPS.",
+                                error = Constants.ErrorMessages.LOCATION,
                             )
+                        }
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    _weather.update {
+                        WeatherState(
+                            weatherData = null,
+                            isLoading = false,
+                            error = e.message,
+                        )
+                    }
                 }
             }
         }

@@ -1,7 +1,6 @@
 package com.yaabelozerov.lifestylehub.presentation.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
@@ -68,8 +67,6 @@ class MainActivity : ComponentActivity() {
 
             weatherCardViewModel.loadWeatherInfo()
             venuesCardViewModel.loadVenues()
-
-            Log.i("Function Call", "onCreate")
 
             var selectedIndex by rememberSaveable {
                 mutableStateOf(0)

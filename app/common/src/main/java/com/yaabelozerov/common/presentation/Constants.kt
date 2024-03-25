@@ -22,8 +22,22 @@ sealed class Constants {
 
     sealed class Fonts {
         companion object {
-            val small = 12.sp
+            val extraSmall = 12.sp
+            val small = 16.sp
             val medium = 20.sp
+            val large = 22.sp
+            val extraLarge = 26.sp
         }
+    }
+
+    sealed class ErrorMessages {
+        companion object {
+            const val UNKNOWN = "Unknown error"
+            const val LOCATION = "Cannot retrieve location, check you permissions"
+        }
+    }
+
+    companion object {
+        const val DEGREE_SYMBOL = "°"
     }
 }

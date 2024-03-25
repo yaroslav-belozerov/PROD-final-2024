@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaabelozerov.common.domain.Resource
+import com.yaabelozerov.common.presentation.Constants
 import com.yaabelozerov.location.domain.LocationTracker
 import com.yaabelozerov.venues.domain.repository.VenuesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +24,6 @@ class VenuesCardViewModel
         val venues = _venues.asStateFlow()
 
         fun loadVenues() {
-            Log.i("Function Call", "loadVenues")
             viewModelScope.launch {
                 try {
                     locationTracker.getCurrentLocation()?.let { location ->
@@ -32,22 +32,22 @@ class VenuesCardViewModel
                         ).collect { result ->
                             when (result) {
                                 is Resource.Error -> {
-                                    Log.e("Error getting venues", "${result.message}")
                                     _venues.emit(VenuesState(venues = emptyList(), error = result.message, isLoading = false))
                                 }
 
                                 is Resource.Success -> {
-                                    Log.i("Got venues!", "${result.data}")
                                     _venues.emit(VenuesState(venues = result.data!!, error = null, isLoading = false))
                                 }
                             }
                         }
                     } ?: kotlin.run {
                         Log.e("Error getting location", "location is null")
-                        _venues.emit(VenuesState(venues = emptyList(), error = "location is null", isLoading = false))
+                        _venues.emit(VenuesState(venues = emptyList(), error = Constants.ErrorMessages.LOCATION, isLoading = false))
                     }
                 } catch (e: Exception) {
-                    _venues.emit(VenuesState(venues = emptyList(), error = e.message ?: "Unknown error", isLoading = false))
+                    _venues.emit(
+                        VenuesState(venues = emptyList(), error = e.message ?: Constants.ErrorMessages.LOCATION, isLoading = false),
+                    )
                     e.printStackTrace()
                 }
             }
