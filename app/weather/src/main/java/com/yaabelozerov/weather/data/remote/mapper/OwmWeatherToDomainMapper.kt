@@ -19,8 +19,8 @@ class OwmWeatherToDomainMapper :
             // Constructing an icon url from icon directory, value and parameters
             // These add a + to positive temperatures
             temperature = "${if (obj.main!!.temp!!.toInt() > 0) "+" else ""}${obj.main!!.temp!!.toInt()}",
-            tempMin = obj.main!!.tempMin?.toInt()?.toString() ?: "",
-            tempMax = obj.main!!.tempMax?.toInt()?.toString() ?: "",
+            tempMin = "${if (obj.main!!.tempMin!!.toInt() > 0) "+" else ""}${obj.main!!.tempMin!!.toInt()}",
+            tempMax = "${if (obj.main!!.tempMax!!.toInt() > 0) "+" else ""}${obj.main!!.tempMax!!.toInt()}",
             feelsLike = "${if (obj.main!!.feelsLike!!.toInt() > 0) "+" else ""}${obj.main!!.feelsLike!!.toInt()}",
             lat = obj.coord!!.lat.toString(),
             lon = obj.coord!!.lon.toString(),

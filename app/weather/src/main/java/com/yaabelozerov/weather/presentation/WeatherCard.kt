@@ -7,11 +7,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
@@ -52,7 +53,7 @@ fun WeatherCard(state: WeatherState) {
 fun FilledWeatherCard(data: WeatherData) {
     WeatherCardSkeleton(place = {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = data.place, fontSize = Constants.Fonts.extraLarge)
+            Text(text = data.place, fontSize = Constants.Fonts.medium)
             Spacer(modifier = Modifier.width(8.dp))
             Text(text = data.description, fontSize = Constants.Fonts.small)
         }
@@ -61,33 +62,39 @@ fun FilledWeatherCard(data: WeatherData) {
             model = data.iconUrl,
             contentDescription = "None",
             modifier =
-                Modifier
-                    .fillMaxHeight()
-                    .width(64.dp),
+            Modifier.size(46.dp),
             loading = placeholder(R.drawable.weather_icon_placeholder),
         )
     }, data = {
-        Column {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = data.temperature + Constants.DEGREE_SYMBOL + "C", fontSize = Constants.Fonts.extraLarge)
-                Spacer(modifier = Modifier.width(8.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = data.temperature + Constants.DEGREE_SYMBOL + "C",
+                fontSize = Constants.Fonts.large
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Column(verticalArrangement = Arrangement.Center) {
                 if (data.tempMin != data.temperature) {
-                    Row {
+                    Row(Modifier.wrapContentHeight()) {
                         if (data.tempMin != data.tempMax) {
                             Text(
-                                text = "from ${data.tempMin}${Constants.DEGREE_SYMBOL}",
+                                text = "From ${data.tempMin}${Constants.DEGREE_SYMBOL}",
                                 fontSize = Constants.Fonts.small,
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                         }
-                        Text(text = "to ${data.tempMax}${Constants.DEGREE_SYMBOL}", fontSize = Constants.Fonts.small)
+                        Text(
+                            text = "to ${data.tempMax}${Constants.DEGREE_SYMBOL}",
+                            fontSize = Constants.Fonts.small
+                        )
                     }
                 }
-            }
-            Column {
-                Text(text = "Feels like ${data.feelsLike}${Constants.DEGREE_SYMBOL}", fontSize = Constants.Fonts.small)
+                Text(
+                    text = "Feels like ${data.feelsLike}${Constants.DEGREE_SYMBOL}",
+                    fontSize = Constants.Fonts.small
+                )
             }
         }
+
     })
 }
 
@@ -97,25 +104,28 @@ fun LoadingWeatherCard() {
     WeatherCardSkeleton(place = {
         Column {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                ShimmerSpacer(width = 96f, height = 32f)
+                ShimmerSpacer(width = 96f, height = 24f)
                 Spacer(modifier = Modifier.width(8.dp))
                 ShimmerSpacer(width = 80f, height = 24f)
             }
             Spacer(modifier = Modifier.height(8.dp))
         }
     }, image = {
-        ShimmerSpacer(width = 64f, height = 96f)
+        ShimmerSpacer(width = 48f, height = 48f)
     }, data = {
         Row {
             Spacer(modifier = Modifier.width(8.dp))
-            Column {
+            Row {
                 Row {
-                    ShimmerSpacer(width = 48f, height = 32f)
+                    ShimmerSpacer(width = 80f, height = 48f)
                     Spacer(modifier = Modifier.width(8.dp))
-                    ShimmerSpacer(width = 96f, height = 32f)
+
                 }
-                Spacer(modifier = Modifier.height(8.dp))
-                ShimmerSpacer(width = 96f, height = 16f)
+                Column {
+                    ShimmerSpacer(width = 96f, height = 20f)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    ShimmerSpacer(width = 64f, height = 20f)
+                }
             }
         }
     })
@@ -144,7 +154,7 @@ fun ErrorWeatherCard(error: String) {
 fun ErrorWeatherCardPreview() {
     ErrorWeatherCard(
         error =
-            "Unknown error, please try again or contact support. Lorem ipsum dolor sit amet " +
+        "Unknown error, please try again or contact support. Lorem ipsum dolor sit amet " +
                 "consectetur adipiscing elit. Donec ut nunc et sem ultrices auctor. ",
     )
 }
@@ -157,20 +167,18 @@ fun WeatherCardSkeleton(
 ) {
     ElevatedCard(
         modifier =
-            Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
+        Modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(8.dp),
     ) {
         Column(
             modifier =
-                Modifier
-                    .padding(16.dp)
-                    .height(96.dp),
-            verticalArrangement = Arrangement.SpaceAround,
+            Modifier
+                .padding(16.dp),
         ) {
             place?.invoke()
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 image?.invoke()
                 data?.invoke()
             }

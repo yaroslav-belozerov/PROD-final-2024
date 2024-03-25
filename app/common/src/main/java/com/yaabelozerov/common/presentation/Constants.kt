@@ -22,11 +22,9 @@ sealed class Constants {
 
     sealed class Fonts {
         companion object {
-            val extraSmall = 12.sp
             val small = 16.sp
-            val medium = 20.sp
-            val large = 22.sp
-            val extraLarge = 26.sp
+            val medium = 22.sp
+            val large = 36.sp
         }
     }
 
