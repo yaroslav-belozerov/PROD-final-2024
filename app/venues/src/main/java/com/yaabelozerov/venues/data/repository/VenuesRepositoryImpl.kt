@@ -67,7 +67,13 @@ class VenuesRepositoryImpl
                         }
                     }
                 } catch (e: Exception) {
-                    send(Resource.Error(message = e.message ?: "Unknown error"))
+                    send(
+                        Resource.Error(
+                            message =
+                                e.message
+                                    ?: com.yaabelozerov.common.presentation.Constants.ErrorMessages.UNKNOWN,
+                        ),
+                    )
                 }
                 awaitClose()
             }

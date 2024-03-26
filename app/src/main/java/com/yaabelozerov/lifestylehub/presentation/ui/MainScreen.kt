@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.yaabelozerov.venues.presentation.ErrorVenueCard
 import com.yaabelozerov.venues.presentation.LoadingVenueCard
@@ -32,7 +34,7 @@ fun MainScreen(
                 if (!venuesState.isLoading) {
                     items(venuesState.venues.size) { index ->
                         VenueCard(
-                            data = venuesState.venues[index]
+                            data = venuesState.venues[index],
                         )
                     }
                 } else {
@@ -41,7 +43,7 @@ fun MainScreen(
             } else {
                 item {
                     ErrorVenueCard(
-                        error = venuesState.error.toString()
+                        error = venuesState.error.toString(),
                     )
                 }
             }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="temp_from">From</string>
+    <string name="temp_to">to</string>
+    <string name="temp_feels">Feels like</string>
+</resources>

@@ -1,6 +1,5 @@
 package com.yaabelozerov.venues.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaabelozerov.common.domain.Resource
@@ -21,7 +20,7 @@ class VenuesCardViewModel
         private val locationTracker: LocationTracker,
     ) : ViewModel() {
         private var _venues = MutableStateFlow(VenuesState())
-        val venues = _venues.asStateFlow()
+        var venues = _venues.asStateFlow()
 
         fun loadVenues() {
             viewModelScope.launch {
@@ -41,7 +40,6 @@ class VenuesCardViewModel
                             }
                         }
                     } ?: kotlin.run {
-                        Log.e("Error getting location", "location is null")
                         _venues.emit(VenuesState(venues = emptyList(), error = Constants.ErrorMessages.LOCATION, isLoading = false))
                     }
                 } catch (e: Exception) {

@@ -62,10 +62,8 @@ class MainActivity : ComponentActivity() {
 
             val weatherCardViewModel: WeatherCardViewModel = hiltViewModel()
             val venuesCardViewModel: VenuesCardViewModel = hiltViewModel()
-
             val w by weatherCardViewModel.weather.collectAsState()
             val v by venuesCardViewModel.venues.collectAsState()
-
             weatherCardViewModel.loadWeatherInfo()
             venuesCardViewModel.loadVenues()
 
@@ -98,7 +96,7 @@ class MainActivity : ComponentActivity() {
                         Crossfade(targetState = v) { state ->
                             MainScreen(
                                 weatherState = w,
-                                venuesState = state
+                                venuesState = state,
                             )
                         }
                     }

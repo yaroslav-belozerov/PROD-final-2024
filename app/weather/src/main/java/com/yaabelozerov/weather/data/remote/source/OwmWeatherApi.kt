@@ -3,6 +3,7 @@ package com.yaabelozerov.weather.data.remote.source
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.yaabelozerov.weather.data.remote.OwmWeatherDTO
+import com.yaabelozerov.weather.data.remote.util.Constants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,7 +30,7 @@ class OwmWeatherApi : OwmWeatherService {
                 .build()
 
         val retrofit =
-            Retrofit.Builder().baseUrl("https://api.openweathermap.org/data/2.5/")
+            Retrofit.Builder().baseUrl(Constants.OWM_API_BASE_URL)
                 .addConverterFactory(MoshiConverterFactory.create(moshi)).build()
         val call: Call<OwmWeatherDTO> =
             retrofit.create(OwmWeatherService::class.java)
