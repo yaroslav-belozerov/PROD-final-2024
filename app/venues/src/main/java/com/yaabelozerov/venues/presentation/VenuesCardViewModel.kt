@@ -3,8 +3,9 @@ package com.yaabelozerov.venues.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaabelozerov.common.domain.Resource
-import com.yaabelozerov.common.presentation.Constants
+import com.yaabelozerov.common.presentation.CommonConstants
 import com.yaabelozerov.location.domain.LocationTracker
+import com.yaabelozerov.venues.data.util.Constants
 import com.yaabelozerov.venues.domain.repository.VenuesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,7 +28,7 @@ class VenuesCardViewModel
                 try {
                     locationTracker.getCurrentLocation()?.let { location ->
                         repository.getVenues(
-                            lat = location.latitude, lon = location.longitude, radius = 1000,
+                            lat = location.latitude, lon = location.longitude, radius = Constants.FSQ_RADIUS,
                         ).collect { result ->
                             when (result) {
                                 is Resource.Error -> {
@@ -40,11 +41,11 @@ class VenuesCardViewModel
                             }
                         }
                     } ?: kotlin.run {
-                        _venues.emit(VenuesState(venues = emptyList(), error = Constants.ErrorMessages.LOCATION, isLoading = false))
+                        _venues.emit(VenuesState(venues = emptyList(), error = CommonConstants.ErrorMessages.LOCATION, isLoading = false))
                     }
                 } catch (e: Exception) {
                     _venues.emit(
-                        VenuesState(venues = emptyList(), error = e.message ?: Constants.ErrorMessages.LOCATION, isLoading = false),
+                        VenuesState(venues = emptyList(), error = e.message ?: CommonConstants.ErrorMessages.LOCATION, isLoading = false),
                     )
                     e.printStackTrace()
                 }

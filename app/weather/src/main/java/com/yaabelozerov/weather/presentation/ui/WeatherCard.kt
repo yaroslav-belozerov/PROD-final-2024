@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalGlideComposeApi::class)
 
-package com.yaabelozerov.weather.presentation
+package com.yaabelozerov.weather.presentation.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,10 +25,11 @@ import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
-import com.yaabelozerov.common.presentation.Constants
+import com.yaabelozerov.common.presentation.CommonConstants
 import com.yaabelozerov.common.presentation.ShimmerSpacer
 import com.yaabelozerov.weather.R
 import com.yaabelozerov.weather.domain.model.WeatherData
+import com.yaabelozerov.weather.presentation.WeatherState
 
 val PREVIEW_DATA = WeatherData("Зюзино", "Пасмурно", "", "-10", "-100", "+100", "-2", "100", "100")
 
@@ -56,9 +57,9 @@ fun WeatherCard(
 fun FilledWeatherCard(data: WeatherData) {
     WeatherCardSkeleton(place = {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = data.place, fontSize = Constants.Fonts.medium)
+            Text(text = data.place, fontSize = CommonConstants.Fonts.medium)
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = data.description, fontSize = Constants.Fonts.small)
+            Text(text = data.description, fontSize = CommonConstants.Fonts.small)
         }
     }, image = {
         GlideImage(
@@ -70,8 +71,8 @@ fun FilledWeatherCard(data: WeatherData) {
     }, data = {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = data.temperature + Constants.DEGREE_SYMBOL + Constants.DEGREE_QUALIFIER,
-                fontSize = Constants.Fonts.large,
+                text = data.temperature + CommonConstants.DEGREE_SYMBOL + CommonConstants.DEGREE_QUALIFIER,
+                fontSize = CommonConstants.Fonts.large,
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column(verticalArrangement = Arrangement.Center) {
@@ -79,20 +80,20 @@ fun FilledWeatherCard(data: WeatherData) {
                     Row(Modifier.wrapContentHeight()) {
                         if (data.tempMin != data.tempMax) {
                             Text(
-                                text = "${stringResource(id = R.string.temp_from)} ${data.tempMin}${Constants.DEGREE_SYMBOL}",
-                                fontSize = Constants.Fonts.small,
+                                text = "${stringResource(id = R.string.temp_from)} ${data.tempMin}${CommonConstants.DEGREE_SYMBOL}",
+                                fontSize = CommonConstants.Fonts.small,
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                         }
                         Text(
-                            text = "${stringResource(id = R.string.temp_to)} ${data.tempMax}${Constants.DEGREE_SYMBOL}",
-                            fontSize = Constants.Fonts.small,
+                            text = "${stringResource(id = R.string.temp_to)} ${data.tempMax}${CommonConstants.DEGREE_SYMBOL}",
+                            fontSize = CommonConstants.Fonts.small,
                         )
                     }
                 }
                 Text(
-                    text = "${stringResource(id = R.string.temp_feels)} ${data.feelsLike}${Constants.DEGREE_SYMBOL}",
-                    fontSize = Constants.Fonts.small,
+                    text = "${stringResource(id = R.string.temp_feels)} ${data.feelsLike}${CommonConstants.DEGREE_SYMBOL}",
+                    fontSize = CommonConstants.Fonts.small,
                 )
             }
         }
@@ -145,7 +146,7 @@ fun ErrorWeatherCard(
     WeatherCardSkeleton(modifier = modifier, place = null, image = null, data = {
         Text(
             text = error,
-            fontSize = Constants.Fonts.small,
+            fontSize = CommonConstants.Fonts.small,
             color = MaterialTheme.colorScheme.error,
         )
     })
@@ -155,7 +156,7 @@ fun ErrorWeatherCard(
 @Preview
 fun ErrorWeatherCardPreview() {
     ErrorWeatherCard(
-        error = Constants.ErrorMessages.PLACEHOLDER,
+        error = CommonConstants.ErrorMessages.PLACEHOLDER,
     )
 }
 

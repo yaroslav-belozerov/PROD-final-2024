@@ -41,9 +41,7 @@ class OwmWeatherApi : OwmWeatherService {
                 override fun onResponse(
                     call: Call<OwmWeatherDTO?>,
                     response: Response<OwmWeatherDTO?>,
-                ) {
-                    val dto: OwmWeatherDTO? = response.body()
-                }
+                ) {}
 
                 override fun onFailure(
                     call: Call<OwmWeatherDTO?>,

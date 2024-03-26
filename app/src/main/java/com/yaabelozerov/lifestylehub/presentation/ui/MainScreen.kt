@@ -1,22 +1,18 @@
 package com.yaabelozerov.lifestylehub.presentation.ui
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.yaabelozerov.venues.presentation.ErrorVenueCard
 import com.yaabelozerov.venues.presentation.LoadingVenueCard
 import com.yaabelozerov.venues.presentation.VenueCard
 import com.yaabelozerov.venues.presentation.VenuesState
-import com.yaabelozerov.weather.presentation.WeatherCard
 import com.yaabelozerov.weather.presentation.WeatherState
+import com.yaabelozerov.weather.presentation.ui.WeatherCard
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen(
     weatherState: WeatherState,

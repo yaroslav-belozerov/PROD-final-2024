@@ -1,4 +1,4 @@
-package com.yaabelozerov.lifestylehub.presentation.ui
+package com.yaabelozerov.lifestylehub.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -28,6 +28,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.yaabelozerov.lifestylehub.presentation.ui.MainScreen
+import com.yaabelozerov.lifestylehub.presentation.ui.NotesScreen
+import com.yaabelozerov.lifestylehub.presentation.ui.ProfileScreen
 import com.yaabelozerov.venues.presentation.VenuesCardViewModel
 import com.yaabelozerov.weather.presentation.WeatherCardViewModel
 import dagger.hilt.android.AndroidEntryPoint

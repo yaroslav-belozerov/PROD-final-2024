@@ -45,7 +45,7 @@ import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
-import com.yaabelozerov.common.presentation.Constants
+import com.yaabelozerov.common.presentation.CommonConstants
 import com.yaabelozerov.common.presentation.ShimmerSpacer
 import com.yaabelozerov.venues.R
 import com.yaabelozerov.venues.domain.model.VenueData
@@ -100,7 +100,7 @@ fun ProximitySign(distance: String) {
             tint = MaterialTheme.colorScheme.primary,
         )
         Spacer(modifier = Modifier.width(4.dp))
-        Text(text = "$distance ${Constants.DISTANCE_SYMBOL}", fontSize = Constants.Fonts.small)
+        Text(text = "$distance ${CommonConstants.DISTANCE_SYMBOL}", fontSize = CommonConstants.Fonts.small)
     }
     Spacer(modifier = Modifier.width(8.dp))
 }
@@ -123,7 +123,7 @@ fun OpenClosedSign(isClosed: Boolean) {
                         R.string.open_venue,
                     )
                 },
-            fontSize = Constants.Fonts.small,
+            fontSize = CommonConstants.Fonts.small,
         )
     }
 }
@@ -137,7 +137,7 @@ fun AddressSign(address: String) {
             tint = MaterialTheme.colorScheme.primary,
         )
         Spacer(modifier = Modifier.width(4.dp))
-        Text(text = address, fontSize = Constants.Fonts.small)
+        Text(text = address, fontSize = CommonConstants.Fonts.small)
     }
 }
 
@@ -147,8 +147,8 @@ fun VenueCardModal(data: VenueData) {
         Column {
             Text(
                 text = data.name,
-                fontSize = Constants.Fonts.xLarge,
-                lineHeight = Constants.Fonts.xLargeHeight,
+                fontSize = CommonConstants.Fonts.xLarge,
+                lineHeight = CommonConstants.Fonts.xLargeHeight,
             )
             Spacer(modifier = Modifier.height(4.dp))
             Row {
@@ -164,7 +164,7 @@ fun VenueCardModal(data: VenueData) {
                         Text(
                             modifier = Modifier.padding(8.dp),
                             text = it,
-                            fontSize = Constants.Fonts.small,
+                            fontSize = CommonConstants.Fonts.small,
                         )
                     }
                 }
@@ -210,8 +210,8 @@ fun VenueCard(
     VenueCardSkeleton(modifier = modifier.then(Modifier.clickable { isPopupOpen = true }), title = {
         Text(
             text = data.name,
-            fontSize = Constants.Fonts.large,
-            lineHeight = Constants.Fonts.largeHeight,
+            fontSize = CommonConstants.Fonts.large,
+            lineHeight = CommonConstants.Fonts.largeHeight,
         )
     }, image = {
         if (data.photos.isNotEmpty()) {
@@ -288,5 +288,5 @@ fun ErrorVenueCard(
 @Composable
 @Preview
 fun ErrorVenueCardPreview() {
-    ErrorVenueCard(error = Constants.ErrorMessages.PLACEHOLDER)
+    ErrorVenueCard(error = CommonConstants.ErrorMessages.PLACEHOLDER)
 }

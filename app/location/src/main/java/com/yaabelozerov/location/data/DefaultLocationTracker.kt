@@ -10,7 +10,6 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import androidx.core.content.ContextCompat
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.yaabelozerov.location.domain.LocationTracker
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,10 +20,17 @@ import kotlin.coroutines.resume
 class DefaultLocationTracker
     @Inject
     constructor(
-        private val locationClient: FusedLocationProviderClient,
         private val application: Application,
     ) : LocationTracker {
         private val lastKnownLocation = MutableStateFlow<Location?>(null)
+
+        override suspend fun getCurrentLocation(): Location? {
+            delay(3000)
+            return suspendCancellableCoroutine { continuation ->
+                lastKnownLocation.value = updateLocation()
+                continuation.resume(lastKnownLocation.value)
+            }
+        }
 
         private fun updateLocation(): Location? {
             val hasCoarsePermission =
@@ -63,26 +69,19 @@ class DefaultLocationTracker
             return locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
         }
 
-        override suspend fun getCurrentLocation(): Location? {
-            delay(3000)
-            return suspendCancellableCoroutine { continuation ->
-                lastKnownLocation.value = updateLocation()
-                continuation.resume(lastKnownLocation.value)
-            }
-        }
-
         private val locationListener: LocationListener =
             object : LocationListener {
                 override fun onLocationChanged(location: Location) {
                     lastKnownLocation.value = location
-                    Log.d("DefaultLocationTracker_lastKnown", lastKnownLocation.toString())
                 }
 
+                @Deprecated("Overrides deprecated member")
                 override fun onStatusChanged(
                     provider: String,
                     status: Int,
                     extras: Bundle,
-                ) {}
+                ) {
+                }
 
                 override fun onProviderEnabled(provider: String) {}
 

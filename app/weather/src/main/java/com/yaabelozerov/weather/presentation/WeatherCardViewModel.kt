@@ -3,7 +3,7 @@ package com.yaabelozerov.weather.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaabelozerov.common.domain.Resource
-import com.yaabelozerov.common.presentation.Constants
+import com.yaabelozerov.common.presentation.CommonConstants
 import com.yaabelozerov.location.domain.LocationTracker
 import com.yaabelozerov.weather.domain.repository.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -59,7 +59,7 @@ class WeatherCardViewModel
                             WeatherState(
                                 weatherData = null,
                                 isLoading = false,
-                                error = Constants.ErrorMessages.LOCATION,
+                                error = CommonConstants.ErrorMessages.LOCATION,
                             )
                         }
                     }

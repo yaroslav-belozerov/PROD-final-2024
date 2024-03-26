@@ -1,4 +1,4 @@
-package com.yaabelozerov.lifestylehub.presentation.ui
+package com.yaabelozerov.lifestylehub.presentation
 
 sealed class Screens(val route: String) {
     object MainScreen : Screens("MainScreen")

@@ -27,6 +27,7 @@ class VenuesRepositoryImpl
         ): Flow<Resource<List<VenueData>>> =
             channelFlow {
                 try {
+                    // The amount of hours until the cache is invalid to millis
                     val cacheInvalidBreakpoint: Long = Constants.CACHED_HRS * 60 * 60 * 1000
                     venuesDao.invalidateCachesBeforeTimestamp(cacheInvalidBreakpoint)
                     venuesDao.getByLatLonAfterTimestamp(
@@ -41,7 +42,7 @@ class VenuesRepositoryImpl
                                 fsqPlacesApi.placesByCoordinates(
                                     apiKey = BuildConfig.FSQ_PLACES_API_KEY,
                                     coordinates = "$lat,$lon",
-                                    radius = 1000,
+                                    radius = Constants.FSQ_RADIUS,
                                     fields =
                                         listOf(
                                             "fsq_id",
@@ -72,7 +73,7 @@ class VenuesRepositoryImpl
                         Resource.Error(
                             message =
                                 e.message
-                                    ?: com.yaabelozerov.common.presentation.Constants.ErrorMessages.UNKNOWN,
+                                    ?: com.yaabelozerov.common.presentation.CommonConstants.ErrorMessages.UNKNOWN,
                         ),
                     )
                 }

@@ -30,9 +30,9 @@ fun ShimmerSpacer(
 ) {
     Spacer(
         modifier =
-            Modifier.width(width.dp).height(height.dp).clip(shape = Constants.Shimmer.shape)
+            Modifier.width(width.dp).height(height.dp).clip(shape = CommonConstants.Shimmer.shape)
                 .shimmer(
-                    Constants.Shimmer.colors,
+                    CommonConstants.Shimmer.colors,
                 ).then(modifier),
     )
 }
@@ -50,7 +50,7 @@ fun Modifier.shimmer(colors: List<Color>): Modifier =
             targetValue = 2 * size.width.toFloat(),
             animationSpec =
                 infiniteRepeatable(
-                    animation = tween(Constants.Shimmer.duration),
+                    animation = tween(CommonConstants.Shimmer.duration),
                 ),
             label = "startOffsetX",
         )

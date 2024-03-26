@@ -3,6 +3,7 @@ package com.yaabelozerov.venues.data.remote.foursquare.mapper
 import android.util.Log
 import com.yaabelozerov.common.domain.DomainMapper
 import com.yaabelozerov.venues.data.remote.foursquare.model.Result
+import com.yaabelozerov.venues.data.util.Constants
 import com.yaabelozerov.venues.domain.model.VenueData
 
 class FsqWeatherToDomainMapper : DomainMapper<Result, VenueData> {
@@ -19,7 +20,7 @@ class FsqWeatherToDomainMapper : DomainMapper<Result, VenueData> {
                     else -> false
                 },
             address = obj.location?.formattedAddress.toString(),
-            photos = obj.photos?.map { it.prefix + "original" + it.suffix } ?: listOf(),
+            photos = obj.photos?.map { it.prefix + Constants.FSQ_IMG_SIZE + it.suffix } ?: listOf(),
             latlon = obj.geocodes?.main?.latitude?.toInt().toString() + "," + obj.geocodes?.main?.longitude?.toInt().toString(),
             timeStamp = System.currentTimeMillis(),
             isFavourite = false,

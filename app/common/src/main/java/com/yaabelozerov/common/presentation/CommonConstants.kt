@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-sealed class Constants {
+sealed class CommonConstants {
     sealed class Shimmer {
         companion object {
             val duration: Int = 1000

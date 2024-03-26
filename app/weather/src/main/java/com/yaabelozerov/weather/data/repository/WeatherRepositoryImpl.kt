@@ -1,7 +1,7 @@
 package com.yaabelozerov.weather.data.repository
 
 import com.yaabelozerov.common.domain.Resource
-import com.yaabelozerov.common.presentation.Constants
+import com.yaabelozerov.common.presentation.CommonConstants
 import com.yaabelozerov.weather.data.remote.mapper.OwmWeatherToDomainMapper
 import com.yaabelozerov.weather.data.remote.source.OwmWeatherApi
 import com.yaabelozerov.weather.domain.model.WeatherData
@@ -26,7 +26,7 @@ class WeatherRepositoryImpl
                 Resource.Success(data = data)
             } catch (e: Exception) {
                 e.printStackTrace()
-                Resource.Error(e.message ?: Constants.ErrorMessages.UNKNOWN)
+                Resource.Error(e.message ?: CommonConstants.ErrorMessages.UNKNOWN)
             }
         }
     }
