@@ -1,5 +1,9 @@
 # LifestyleHUB
 
+## Prequisites
+- GitHub Actions are fundamentally flawed and are failing randomly. If a workflow failed, please consider rerunning it, as my app is not at fault.
+- Several build warnings are displayed about Moshi's incompatibility with Kapt. This is a known bug in Moshi, this project uses KSP.
+
 ## Installation
 ```
 git clone https://github.com/Central-University-IT-prod/mobile-yaroslav-belozerov.git
