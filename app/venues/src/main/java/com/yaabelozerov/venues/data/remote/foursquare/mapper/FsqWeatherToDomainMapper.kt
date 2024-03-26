@@ -11,6 +11,7 @@ class FsqWeatherToDomainMapper : DomainMapper<Result, VenueData> {
         return VenueData(
             id = obj.fsqId.toString(),
             name = obj.name.toString(),
+            categories = obj.categories?.map { it.shortName!! } ?: listOf(),
             distance = obj.distance.toString(),
             isClosed =
                 when (obj.closedBucket) {

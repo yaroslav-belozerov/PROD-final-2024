@@ -11,10 +11,10 @@ sealed class Constants {
             val duration: Int = 1000
             val colors =
                 listOf(
-                    Color.LightGray.copy(alpha = 0.9f),
-                    Color.LightGray.copy(alpha = 0.3f),
-                    Color.LightGray.copy(alpha = 0.3f),
-                    Color.LightGray.copy(alpha = 0.9f),
+                    Color.hsl(253.71f, 0.5932f, 0.8843f).copy(alpha = 1f),
+                    Color.hsl(253.71f, 0.5932f, 0.8843f).copy(alpha = 0.2f),
+                    Color.hsl(253.71f, 0.5932f, 0.8843f).copy(alpha = 0.2f),
+                    Color.hsl(253.71f, 0.5932f, 0.8843f).copy(alpha = 1f),
                 )
             val shape = RoundedCornerShape(8.dp)
         }

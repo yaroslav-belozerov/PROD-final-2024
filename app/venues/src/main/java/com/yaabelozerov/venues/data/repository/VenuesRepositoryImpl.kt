@@ -46,6 +46,7 @@ class VenuesRepositoryImpl
                                         listOf(
                                             "fsq_id",
                                             "closed_bucket",
+                                            "categories",
                                             "distance",
                                             "location",
                                             "name",

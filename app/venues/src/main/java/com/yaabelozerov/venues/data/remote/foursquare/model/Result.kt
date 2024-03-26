@@ -6,8 +6,8 @@ class Result {
     @Json(name = "fsq_id")
     var fsqId: String? = null
 
-//    @Json(name = "categories")
-//    var categories: List<Category>? = null
+    @Json(name = "categories")
+    var categories: List<Category>? = null
 //
 //    @Json(name = "chains")
 //    var chains: List<Any>? = null

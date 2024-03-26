@@ -18,32 +18,12 @@ class FsqPlacesApi : FsqPlacesApiService {
         val retrofit =
             Retrofit.Builder().baseUrl("https://api.foursquare.com/v3/places/")
                 .addConverterFactory(MoshiConverterFactory.create(moshi)).build()
-        val call: FsqPlacesDTO =
-            retrofit.create(FsqPlacesApiService::class.java).placesByCoordinates(
-                apiKey = apiKey,
-                coordinates = coordinates,
-                radius = radius,
-                fields = fields,
-            )
 
-//        call.clone().enqueue(
-//            object : Callback<FsqPlacesDTO?> {
-//                override fun onResponse(
-//                    call: Call<FsqPlacesDTO?>,
-//                    response: Response<FsqPlacesDTO?>,
-//                ) {
-//                    Log.i("places_onResponse", response.raw().toString())
-//                }
-//
-//                override fun onFailure(
-//                    call: Call<FsqPlacesDTO?>,
-//                    t: Throwable,
-//                ) {
-//                    t.printStackTrace()
-//                }
-//            },
-//        )
-
-        return call
+        return retrofit.create(FsqPlacesApiService::class.java).placesByCoordinates(
+            apiKey = apiKey,
+            coordinates = coordinates,
+            radius = radius,
+            fields = fields,
+        )
     }
 }

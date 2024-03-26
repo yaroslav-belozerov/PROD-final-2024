@@ -6,7 +6,6 @@
 
 package com.yaabelozerov.venues.presentation
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,13 +17,17 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -51,6 +54,7 @@ val PREVIEW_DATA =
     VenueData(
         "12341234123",
         "Metro Cash & Carry Продуктовый магазин",
+        listOf("Кафе", "Кафе", "Кафе", "Кафе", "Кафе"),
         "10000",
         "Санкт-Петербург, ул. Ленина, 1",
         true,
@@ -74,6 +78,7 @@ fun VenueCardSkeleton(
                 .padding(16.dp, 8.dp)
                 .then(modifier),
         elevation = CardDefaults.cardElevation(8.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
     ) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             if (image != null) {
@@ -89,9 +94,10 @@ fun VenueCardSkeleton(
 @Composable
 fun ProximitySign(distance: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Image(
+        Icon(
             painter = painterResource(R.drawable.icons8_map),
             contentDescription = "map icon",
+            tint = MaterialTheme.colorScheme.primary,
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(text = "$distance ${Constants.DISTANCE_SYMBOL}", fontSize = Constants.Fonts.small)
@@ -102,9 +108,10 @@ fun ProximitySign(distance: String) {
 @Composable
 fun OpenClosedSign(isClosed: Boolean) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Image(
+        Icon(
             painter = painterResource(R.drawable.icons8_clock),
             contentDescription = "clock icon",
+            tint = MaterialTheme.colorScheme.primary,
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(
@@ -124,9 +131,10 @@ fun OpenClosedSign(isClosed: Boolean) {
 @Composable
 fun AddressSign(address: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Image(
+        Icon(
             painter = painterResource(R.drawable.icons8_location),
             contentDescription = "location icon",
+            tint = MaterialTheme.colorScheme.primary,
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(text = address, fontSize = Constants.Fonts.small)
@@ -142,19 +150,30 @@ fun VenueCardModal(data: VenueData) {
                 fontSize = Constants.Fonts.xLarge,
                 lineHeight = Constants.Fonts.xLargeHeight,
             )
+            Spacer(modifier = Modifier.height(4.dp))
             Row {
                 OpenClosedSign(isClosed = data.isClosed)
                 Spacer(modifier = Modifier.width(8.dp))
                 ProximitySign(distance = data.distance)
             }
             AddressSign(address = data.address)
+            Spacer(modifier = Modifier.height(8.dp))
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                items(data.categories) {
+                    Surface(shape = CardDefaults.shape, color = MaterialTheme.colorScheme.primaryContainer) {
+                        Text(
+                            modifier = Modifier.padding(8.dp),
+                            text = it,
+                            fontSize = Constants.Fonts.small,
+                        )
+                    }
+                }
+            }
         }
         Spacer(modifier = Modifier.height(8.dp))
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Adaptive(128.dp),
-            modifier =
-                Modifier
-                    .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             verticalItemSpacing = 8.dp,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {

@@ -169,10 +169,11 @@ fun WeatherCardSkeleton(
     ElevatedCard(
         modifier =
             Modifier
-                .padding(16.dp)
+                .padding(16.dp, 16.dp, 16.dp, 8.dp)
                 .fillMaxWidth()
                 .then(modifier),
         elevation = CardDefaults.cardElevation(8.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
     ) {
         Column(
             modifier = Modifier.padding(16.dp),

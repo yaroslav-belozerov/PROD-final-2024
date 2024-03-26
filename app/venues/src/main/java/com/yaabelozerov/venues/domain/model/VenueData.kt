@@ -8,6 +8,7 @@ data class VenueData(
     @PrimaryKey(autoGenerate = false)
     val id: String,
     val name: String,
+    val categories: List<String>,
     val distance: String,
     val address: String,
     val isClosed: Boolean,
