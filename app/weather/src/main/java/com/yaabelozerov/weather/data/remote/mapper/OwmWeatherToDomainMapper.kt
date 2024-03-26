@@ -25,8 +25,8 @@ class OwmWeatherToDomainMapper : DomainMapper<OwmWeatherDTO, WeatherData> {
             tempMin = plusToDouble(obj.main!!.tempMin!!),
             tempMax = plusToDouble(obj.main!!.tempMax!!),
             feelsLike = plusToDouble(obj.main!!.feelsLike!!),
-            lat = obj.coord!!.lat.toString(),
-            lon = obj.coord!!.lon.toString(),
+            lat = obj.coord!!.lat!!.toString(),
+            lon = obj.coord!!.lon!!.toString(),
         )
     }
 }

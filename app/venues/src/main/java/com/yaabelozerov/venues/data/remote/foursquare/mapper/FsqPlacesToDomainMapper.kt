@@ -6,7 +6,7 @@ import com.yaabelozerov.venues.data.remote.foursquare.model.Result
 import com.yaabelozerov.venues.data.util.Constants
 import com.yaabelozerov.venues.domain.model.VenueData
 
-class FsqWeatherToDomainMapper : DomainMapper<Result, VenueData> {
+class FsqPlacesToDomainMapper : DomainMapper<Result, VenueData> {
     override fun mapToDomainModel(obj: Result): VenueData {
         Log.d("MAPPER", obj.geocodes?.main.toString())
         return VenueData(

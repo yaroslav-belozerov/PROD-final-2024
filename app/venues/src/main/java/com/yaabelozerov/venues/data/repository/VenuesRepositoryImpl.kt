@@ -4,7 +4,7 @@ import android.util.Log
 import com.yaabelozerov.common.domain.Resource
 import com.yaabelozerov.venues.BuildConfig
 import com.yaabelozerov.venues.data.local.room.VenuesDao
-import com.yaabelozerov.venues.data.remote.foursquare.mapper.FsqWeatherToDomainMapper
+import com.yaabelozerov.venues.data.remote.foursquare.mapper.FsqPlacesToDomainMapper
 import com.yaabelozerov.venues.data.remote.foursquare.source.FsqPlacesApi
 import com.yaabelozerov.venues.data.util.Constants
 import com.yaabelozerov.venues.domain.model.VenueData
@@ -58,7 +58,7 @@ class VenuesRepositoryImpl
                             Log.d("sent_from_api", dto.toString())
                             val mapped =
                                 dto.results!!.map {
-                                    FsqWeatherToDomainMapper().mapToDomainModel(
+                                    FsqPlacesToDomainMapper().mapToDomainModel(
                                         it,
                                     )
                                 }

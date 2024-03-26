@@ -1,26 +1,22 @@
 package com.yaabelozerov.venues.data.remote.foursquare.model
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-class Photo {
+@JsonClass(generateAdapter = true)
+data class Photo(
     @Json(name = "id")
-    var id: String? = null
-
+    var id: String? = null,
     @Json(name = "created_at")
-    var createdAt: String? = null
-
+    var createdAt: String? = null,
     @Json(name = "prefix")
-    var prefix: String? = null
-
+    var prefix: String? = null,
     @Json(name = "suffix")
-    var suffix: String? = null
-
+    var suffix: String? = null,
     @Json(name = "width")
-    var width: Int? = null
-
+    var width: Int? = null,
     @Json(name = "height")
-    var height: Int? = null
-
+    var height: Int? = null,
     @Json(name = "classifications")
-    var classifications: List<String>? = null
-}
+    var classifications: List<String>? = null,
+)

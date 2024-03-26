@@ -1,29 +1,24 @@
 package com.yaabelozerov.venues.data.remote.foursquare.model
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-class Location {
+@JsonClass(generateAdapter = true)
+data class Location(
     @Json(name = "address")
-    var address: String? = null
-
+    var address: String? = null,
     @Json(name = "address_extended")
-    var addressExtended: String? = null
-
+    var addressExtended: String? = null,
     @Json(name = "country")
-    var country: String? = null
-
+    var country: String? = null,
     @Json(name = "cross_street")
-    var crossStreet: String? = null
-
+    var crossStreet: String? = null,
     @Json(name = "formatted_address")
-    var formattedAddress: String? = null
-
+    var formattedAddress: String? = null,
     @Json(name = "locality")
-    var locality: String? = null
-
+    var locality: String? = null,
     @Json(name = "postcode")
-    var postcode: String? = null
-
+    var postcode: String? = null,
     @Json(name = "region")
-    var region: String? = null
-}
+    var region: String? = null,
+)

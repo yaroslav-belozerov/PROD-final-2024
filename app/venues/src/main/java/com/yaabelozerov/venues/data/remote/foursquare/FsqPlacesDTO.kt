@@ -1,9 +1,11 @@
 package com.yaabelozerov.venues.data.remote.foursquare
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import com.yaabelozerov.venues.data.remote.foursquare.model.Result
 
-class FsqPlacesDTO {
+@JsonClass(generateAdapter = true)
+data class FsqPlacesDTO(
     @Json(name = "results")
-    var results: List<Result>? = null
-}
+    var results: List<Result>? = null,
+)

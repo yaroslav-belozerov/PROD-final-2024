@@ -1,11 +1,10 @@
 package com.yaabelozerov.venues.data.remote.foursquare.model
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-class Roof {
-    @Json(name = "latitude")
-    var latitude: Double? = null
-
-    @Json(name = "longitude")
-    var longitude: Double? = null
-}
+@JsonClass(generateAdapter = true)
+data class Roof(
+    @Json(name = "latitude") var latitude: Double? = null,
+    @Json(name = "longitude") var longitude: Double? = null,
+)
